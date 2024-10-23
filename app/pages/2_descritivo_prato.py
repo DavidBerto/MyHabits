@@ -10,11 +10,13 @@ import tempfile
 import os
 
 import requests
+from dotenv import load_dotenv
 
+load_dotenv()
 
 # image_path = "C:/Users/david/OneDrive/Área de Trabalho/bife-de-frango-coberto-com-gergelim-branco-ervilhas-tomates-brocolis-e-abobora-em-um-prato-branco-1.jpg" # Substitua pelo caminho da sua imagem
 # Configura a chave da sua API OpenAI
-api_key = "sk-proj-0KKgL3eDos9U4Zo2HKH6T3BlbkFJS1i1I7VTfZF4hc9zPshs"
+api_key = os.environ.get("OPENAI_API_KEY2")
 
 def describe_image(image_path):
     """Descreve uma imagem usando a API da OpenAI.

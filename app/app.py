@@ -1,6 +1,5 @@
 import streamlit as st
 
-
 st.set_page_config(page_title="My Habits",page_icon="icons/favicon-32x32.png",layout="wide")
 
 #all graphs we use custom css not streamlit 
