@@ -24,7 +24,7 @@ pacientes_page = st.Page(
 )
 
 #LOGO
-st.logo('images/favicon-32x32.png')
+#st.logo('images/favicon-32x32.png')
 
 #navegação
 pg = st.navigation(
