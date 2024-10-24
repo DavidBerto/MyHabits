@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.set_page_config(page_title="My Habits",page_icon="icons/favicon-32x32.png",layout="wide")
+st.set_page_config(page_title="My Habits",page_icon="images/favicon-32x32.png",layout="wide")
 
 #all graphs we use custom css not streamlit 
 theme_plotly = None 
@@ -24,7 +24,7 @@ pacientes_page = st.Page(
 )
 
 #LOGO
-st.logo('icons/favicon-32x32.png')
+st.logo('images/favicon-32x32.png')
 
 #navegação
 pg = st.navigation(
