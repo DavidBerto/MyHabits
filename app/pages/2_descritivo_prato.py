@@ -63,8 +63,9 @@ def describe_image(image_path):
     }
 
     response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
-    #table = (response.json()['choices'][0]['message']['content'])
-    table = (response.json())
+    table = (response.json()['choices'][0]['message']['content'])
+    #table = (response.json())
+    
     st.markdown(table)
     
     if st.button("Registrar"):
@@ -78,9 +79,14 @@ st.title("Descritivo do Prato")
 st.write("Importe a imagem do prato ou tire uma foto")
         # Carrega a imagem
 #if st.button("Carregar imagem"):
-uploaded_file = st.file_uploader("Escolha uma imagem", type=["jpg", "jpeg", "png"])
+col1, col2 = st.columns(2)
+uploaded_file = col1.file_uploader("Escolha uma imagem", type=["jpg", "jpeg", "png"])
 #verifica e converte para jpeg
+enable = col2.checkbox("Abrir câmera")
+picture = col2.camera_input(" ",  disabled=not enable)
 
+#def carregar_imagem():
+    
 # Carregar a imagem
 if uploaded_file:
     temp_dir = tempfile.mkdtemp()
@@ -98,3 +104,20 @@ if uploaded_file:
         # Cria um DataFrame com as descrições
         #df = pd.DataFrame({'Alimentos': descriptions})
             # Botão para gerar a descrição      
+
+if picture:
+    temp_dir = tempfile.mkdtemp()
+    path = os.path.join(temp_dir,picture.name)
+    st.markdown(path)
+    with open(path, "wb") as f:
+        f.write(picture.getvalue())
+    image = Image.open(picture)
+#image_array = cv2.imread(path)
+    st.image(image, caption='Imagem carregada', use_column_width=True)
+
+# Botão para gerar a descrição
+    if st.button("Gerar Descrição"):
+        descriptions = describe_image(path)
+        # Cria um DataFrame com as descrições
+        #df = pd.DataFrame({'Alimentos': descriptions})
+            # Botão para gerar a descrição    
