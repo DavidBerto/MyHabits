@@ -63,8 +63,8 @@ def describe_image(image_path):
     }
 
     response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
-    #table = (response.json()['choices'][0]['message']['content'])
-    table = (response.json())
+    table = (response.json()['choices'][0]['message']['content'])
+    #table = (response.json())
     st.markdown(table)
     
     if st.button("Registrar"):
