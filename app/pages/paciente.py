@@ -4,6 +4,9 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
+
+# Configuração da página
+#
 #foto
 def foto(path):
     st.buttom("Editar foto")
@@ -120,8 +123,7 @@ def filter_dataframe(df, search_term, filters):
     
     return filtered_df
 
-# Configuração da página
-st.set_page_config(page_title="Tabela de Busca e Filtro", layout="wide")
+
 
 # Título da aplicação
 st.title("Tabela de Busca e Filtro com Streamlit")

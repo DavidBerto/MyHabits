@@ -36,8 +36,9 @@ st.data_editor(
     filtered_df,
     hide_index=True,
     num_rows="dynamic",
-    use_container_width=True,
-    disabled = True)                                
+    use_container_width=True
+    #disabled = True
+    )                                
 
 def filtro_tabela(col, df):
     options = st.multiselect(f'Buscar por {col}:',

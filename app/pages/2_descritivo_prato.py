@@ -16,7 +16,7 @@ load_dotenv()
 
 # image_path = "C:/Users/david/OneDrive/Área de Trabalho/bife-de-frango-coberto-com-gergelim-branco-ervilhas-tomates-brocolis-e-abobora-em-um-prato-branco-1.jpg" # Substitua pelo caminho da sua imagem
 # Configura a chave da sua API OpenAI
-api_key = os.environ.get("OPENAI_API_KEY2")
+api_key = os.environ.get("OPENAI_API_KEY3")
 
 def describe_image(image_path):
     """Descreve uma imagem usando a API da OpenAI.
@@ -107,7 +107,7 @@ if uploaded_file:
 if picture:
     temp_dir = tempfile.mkdtemp()
     path = os.path.join(temp_dir,picture.name)
-    st.markdown(path)
+    #st.markdown(path)
     with open(path, "wb") as f:
         f.write(picture.getvalue())
     image = Image.open(picture)
