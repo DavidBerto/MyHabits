@@ -83,7 +83,7 @@ def filter_dataframe(df, search_term, filters):
 
 col1, col2, col3 = st.columns([0.2,0.2, 0.4])
 
-image = Image.open("./foto_david.jpg")
+image = Image.open("image/foto_david.jpg")
 
 #foto
 col1.image(image,width = 200)
