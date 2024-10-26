@@ -94,6 +94,7 @@ image = Image.open("/mount/src/myhabits/app/images/foto_david.jpg")
 
 #foto
 col1.image(image,width = 200)
+feedback = col1.feedback('stars')
 
 #info gerais
 paciente_nome = "David Berto"
@@ -158,37 +159,14 @@ with st.expander("Anamnese"):
     if st.button('Salvar'):
         st.write("Registros Salvos!")
 
-with st.expander("Planos alimentares"):
-    st.write("Planos alimentares")
-    _, col6, col7 = st.columns([3,0.5,0.5])
-    if col7.button("Adicionar Plano"):
-        st.write("Plano adicionado com sucesso!")
-   
+with st.expander("Permissões App"):
+    checkAssistente = st.checkbox("Assistente Virtual")
+    checkAlertaAgua = st.checkbox("Alerta de Água")
+    checkAlertaDiario = st.checkbox("Alerta Atualização Refeição")
+    checkAlerta = st.checkbox("Alerta ")
     
-# Criação de dados de exemplo
-data = {
-    'Nome': ['João', 'Maria', 'Pedro', 'Ana', 'Carlos', 'Ana'],
-    'Idade': [25, 30, 35, 28, 40, 99],
-    'Cidade': ['São Paulo', 'Rio de Janeiro', 'Belo Horizonte', 'Porto Alegre', 'Curitiba','São Paulo'],
-    'Profissão': ['Engenheiro', 'Médica', 'Professor', 'Advogada', 'Arquiteto', 'Ana']
-}
-df = pd.DataFrame(data)
-
-# Barra de busca
-search_term = st.text_input("Buscar", "")
-
-# Criação de opções de filtro para cada coluna
-filter_options = {}
-for column in df.columns:
-    unique_values = df[column].unique().tolist()
-    filter_options[column] = st.multiselect(f"Filtrar por {column}", unique_values)
-
-# Filtragem do DataFrame com base no termo de busca e nos filtros
-filtered_df = filter_dataframe(df, search_term, filter_options)
-
-# Exibição da tabela editável
-edited_df = st.data_editor(
-    filtered_df,
-    num_rows="dynamic",
-    use_container_width=True
-)
+    _, col8, col9 = st.columns([3,0.5,0.5])
+    
+    if col9.button("Salvar Modificações"):
+        st.write("Salvo com Sucesso!")
+ 
