@@ -89,7 +89,6 @@ def filter_dataframe(df, search_term, filters):
     
     return filtered_df
 
-
 col1, col2, col3 = st.columns([0.2,0.2, 0.4])
 
 image = Image.open("/mount/src/myhabits/app/images/foto_david.jpg")
@@ -123,6 +122,7 @@ def perfil():
     tab1, tab2, tab3 = st.tabs(['Perfil', 'Endereço', 'Prontuário'])
     with tab1:
         apelido = st.text_input("Apelido")
+        
         colperfil1, colperfil2 = st.columns(2)
         nome = colperfil1.text_input("Nome")
         sobrenome = colperfil2.text_input("Sobrenome")
@@ -133,6 +133,7 @@ def perfil():
         cpf = colperfil1.number_input("CPF")
         tags = colperfil1.selectbox('Tags', ["Moleque piranha", "Nutri Jõao", "Bixo Grilo"])
         obs = st.text_area("Observações")
+        
     with tab2:
         rua = st.text_input('Rua')
         numero = st.text_input("Número")
@@ -145,11 +146,10 @@ def perfil():
         st.write("Prontuário")
         prontuario = st_quill("")
         
-    if st.button("Salvar"):
+    if st.button("Salvar Informações"):
             st.session_state.perfil = 'perfil'
             st.rerun()
             
-
 colPerfilEmail, colChatVideo = col3.columns(2)
 
 if "perfil" not in st.session_state:
@@ -193,7 +193,7 @@ with st.expander("Anamnese"):
     dfOutrasPatologia = st.text_area("Outras Patologias")  
     dfMedicamentos = st.text_area("Medicamentos")    
     dfHisto = st.text_input("HIstórico Familiar")
-    if st.button('Salvar'):
+    if st.button('Salvar Dados'):
         st.write("Registros Salvos!")
         st.toast("Registros Salvos!")
 
