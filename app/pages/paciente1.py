@@ -157,7 +157,12 @@ with st.expander("Anamnese"):
     dfHisto = st.text_input("HIstórico Familiar")
     if st.button('Salvar'):
         st.write("Registros Salvos!")
-    
+
+with st.expander("Planos alimentares"):
+    st.write("Planos alimentares")
+    _, col6, col7 = st.columns([3,0.5,0.5])
+    if col7.button("Adicionar Plano"):
+        st.write("Plano adicionado com sucesso!")
    
     
 # Criação de dados de exemplo
