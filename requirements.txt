@@ -12,6 +12,7 @@ requests-toolbelt==1.0.0
 streamlit==1.39.0
 streamlit-authenticator==0.4.1
 streamlit-calendar==1.2.0
+streamlit-carousel==1.1.2
 streamlit-camera-input-live==0.2.0
 streamlit-card==1.0.2
 streamlit-embedcode==0.1.2

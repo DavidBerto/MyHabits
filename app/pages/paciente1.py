@@ -28,7 +28,14 @@ def obj_prediction(col):
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=df_peso['Data'], y=df_peso['Peso'], mode='lines', name='Peso Atual'))
     fig.add_trace(go.Scatter(x=df_peso['Data'], y=df_peso['Ideal'], mode='lines', name='Peso Previsto'))
-
+    fig.update_layout(legend=dict(
+        orientation="h",
+        yanchor="bottom",
+        y=1.02,
+        xanchor="right",
+        x=1),
+            margin=dict(l=10, r=10, t=20, b=10)
+        )
 # Mostrar o gráfico no Streamlit
     col.plotly_chart(fig)
 
@@ -83,7 +90,7 @@ def filter_dataframe(df, search_term, filters):
 
 col1, col2, col3 = st.columns([0.2,0.2, 0.4])
 
-image = Image.open("image/foto_david.jpg")
+image = Image.open("images/foto_david.jpg")
 
 #foto
 col1.image(image,width = 200)
@@ -120,8 +127,10 @@ if colChatVideo.button('Videochamada'):
     
     
 #Gráfico de evolução de peso
-st.subheader("Evolução")
-
+colEvol, colEvolBut = st.columns([0.5,3])
+colEvol.markdown("### Evolução")
+if colEvolBut.button("Detalhes da Evolução"):
+    st.write("Ta indo bem!!!")
 obj_prediction(st)
 
 with st.expander("Medidas Antropométricas"):
@@ -149,12 +158,7 @@ with st.expander("Anamnese"):
     if st.button('Salvar'):
         st.write("Registros Salvos!")
     
-    
-    
-    
-    
-    
-    
+   
     
 # Criação de dados de exemplo
 data = {
