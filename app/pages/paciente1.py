@@ -1,4 +1,5 @@
 import streamlit as st
+from streamlit_quill import st_quill
 import pandas as pd
 from datetime import datetime
 from PIL import Image
@@ -69,6 +70,7 @@ def page_medidas():
 
     if st.button("Salvar"):
         st.write("Medidas Salvas")
+        st.toast("Medidas Salvas")
 #def suporte():       
 
 
@@ -91,7 +93,7 @@ def filter_dataframe(df, search_term, filters):
 col1, col2, col3 = st.columns([0.2,0.2, 0.4])
 
 image = Image.open("/mount/src/myhabits/app/images/foto_david.jpg")
-
+#image = Image.open("C:/Users/david/OneDrive/Projetos/MyHabits/app/images/foto_david.jpg")
 #foto
 col1.image(image,width = 200)
 feedback = col1.feedback('stars')
@@ -116,9 +118,44 @@ col3.markdown("""
             * Não come ovo
             * não atualiza o diário a 7 dias""")
 
+@st.dialog("Informações Pessoais", width='large')
+def perfil():
+    tab1, tab2, tab3 = st.tabs(['Perfil', 'Endereço', 'Prontuário'])
+    with tab1:
+        apelido = st.text_input("Apelido")
+        colperfil1, colperfil2 = st.columns(2)
+        nome = colperfil1.text_input("Nome")
+        sobrenome = colperfil2.text_input("Sobrenome")
+        genero = colperfil1.selectbox("Gênero", ["Masculino", "Feminino", "Outro"])
+        email = colperfil2.text_input("E-mail")
+        telefone = colperfil1.text_input("Telefone")
+        data_nasc = colperfil2.date_input("Data de Nascimento")
+        cpf = colperfil1.number_input("CPF")
+        tags = colperfil1.selectbox('Tags', ["Moleque piranha", "Nutri Jõao", "Bixo Grilo"])
+        obs = st.text_area("Observações")
+    with tab2:
+        rua = st.text_input('Rua')
+        numero = st.text_input("Número")
+        complemento = st.text_input("Compl.")
+        bairro = st.text_input("Bairro")
+        cidade = st.text_input("Cidade")
+        estado = st.text_input("Estado")
+        
+    with tab3:
+        st.write("Prontuário")
+        prontuario = st_quill("")
+        
+    if st.button("Salvar"):
+            st.session_state.perfil = 'perfil'
+            st.rerun()
+            
+
 colPerfilEmail, colChatVideo = col3.columns(2)
-if colPerfilEmail.button('Perfil'):
-    colPerfilEmail.write('Perfil')
+
+if "perfil" not in st.session_state:
+    if colPerfilEmail.button("Info. Pessoais"):
+        perfil()
+
 if colPerfilEmail.button('E-mail'):
     colPerfilEmail.write('E-mail')
 if colChatVideo.button('Chat'):
@@ -131,7 +168,7 @@ if colChatVideo.button('Videochamada'):
 colEvol, colEvolBut = st.columns([0.5,3])
 colEvol.markdown("### Evolução")
 if colEvolBut.button("Detalhes da Evolução"):
-    st.write("Ta indo bem!!!")
+    st.toast("Ta indo bem!!!")
 obj_prediction(st)
 
 with st.expander("Medidas Antropométricas"):
@@ -145,7 +182,7 @@ with st.expander("Planos alimentares"):
     st.write("Planos alimentares")
     _, col6, col7 = st.columns([3,0.5,0.5])
     if col7.button("Adicionar Plano"):
-        st.write("Plano adicionado com sucesso!")
+        st.toast("Plano adicionado com sucesso!")
 
 with st.expander("Anamnese"):
     colInicio, colData = st.columns([3,1])
@@ -158,6 +195,7 @@ with st.expander("Anamnese"):
     dfHisto = st.text_input("HIstórico Familiar")
     if st.button('Salvar'):
         st.write("Registros Salvos!")
+        st.toast("Registros Salvos!")
 
 with st.expander("Permissões App"):
     checkAssistente = st.checkbox("Assistente Virtual")
@@ -168,5 +206,5 @@ with st.expander("Permissões App"):
     _, col8, col9 = st.columns([3,0.5,0.5])
     
     if col9.button("Salvar Modificações"):
-        st.write("Salvo com Sucesso!")
+        st.toast("Salvo com Sucesso!")
  

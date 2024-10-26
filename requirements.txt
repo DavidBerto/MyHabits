@@ -22,6 +22,7 @@ streamlit-image-coordinates==0.1.9
 streamlit-keyup==0.2.4
 streamlit-lottie==0.0.5
 streamlit-option-menu==0.3.13
+streamlit_quill==0.0.3
 streamlit-toggle-switch==1.0.2
 streamlit-vertical-slider==2.5.5
 streamlit_dynamic_filters==0.1.9
