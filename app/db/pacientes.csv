@@ -1,0 +1,11 @@
+﻿ID;CPF;Nome;Endereço ;Cidade;UF;Gênero;email;telefone_1;telefone_2;Foto;Status;tags
+1;123;David;456789;SJC;SP;macho;meu_email;(11)968174624;;foto_david;Ativo;nutri,psico
+2;124;Maria;456790;SJC;SP;Femea;meu_email;(11)968174625;;;Ativo;nutri,psico
+3;125;josé;456791;SJC;SP;outros;meu_email;(11)968174626;;;Ativo;nutri,psico
+4;126;David;456792;SJC;SP;macho;meu_email;(11)968174627;;;Ativo;nutri,psico
+5;127;Maria;456793;SJC;SP;Femea;meu_email;(11)968174628;;;Ativo;nutri,psico
+6;128;josé;456794;SJC;SP;outros;meu_email;(11)968174629;;;Ativo;nutri,psico
+7;129;David;456795;SJC;SP;macho;meu_email;(11)968174630;;;Ativo;nutri,psico
+8;130;Maria;456796;SJC;SP;Femea;meu_email;(11)968174631;;;Ativo;nutri,psico
+9;131;josé;456797;SJC;SP;outros;meu_email;(11)968174632;;;Ativo;nutri,psico
+10;132;David;456798;SJC;SP;macho;meu_email;(11)968174633;;;Ativo;nutri,psico

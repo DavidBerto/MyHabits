@@ -4,7 +4,7 @@ import pandas as pd
 
 def base_connect():
     cols = ['ID','Nome', 'Gênero', 'Status','tags']
-    df_pacientes = pd.read_csv("C:\\Users\david\OneDrive\Projetos\MyHabits\data\pacientes.csv", sep=";")
+    df_pacientes = pd.read_csv("/mount/src/myhabits/app/db/pacientes.csv", sep=";")
    # df_pacientes = df_pacientes.loc[df_pacientes['Nome'] == nome]
     return df_pacientes[cols]
 
