@@ -68,7 +68,7 @@ agenda_page = st.Page(
 
 conteudo_page = st.Page(
     page="pages/conteudo.py",
-    title="Meus Conteúdos",
+    title="Artigos e Vídeos",
     icon= ":material/local_library:"
 )
 #LOGO
@@ -79,10 +79,10 @@ conteudo_page = st.Page(
 pg = st.navigation(
     {
         "Início": [home_page], #lista de pacientes
-        "Gestão": [agenda_page, financeiro_page, relatorios_page,social_media_page], # Equipe; 
+        "Minha Gestão": [agenda_page, financeiro_page, relatorios_page,social_media_page], # Equipe; 
         "Meus Pacientes": [descritivo_page, lista_pacientes_page, paciente_page], 
-        "Consultas": [planos_alimentares_page], #  alertas
-        "Conteúdo": [conteudo_page] #video aulas; chat
+        "Minhas Consultas": [planos_alimentares_page], #  alertas
+        "Meus Conteúdos": [conteudo_page] #video aulas; chat
 
     }
 )
