@@ -1,7 +1,8 @@
 import streamlit as st
 
 st.set_page_config(page_title="My Habits",
-                   page_icon="images/favicon-32x32.png",
+                   page_icon="/mount/src/myhabits/app/images/favicon-32x32.png",
+                   #page_icon="C:/Users/david/OneDrive/Projetos/MyHabits/app/images/favicon-32x32.png",
                    layout="wide",
                    initial_sidebar_state="collapsed")
 
@@ -83,7 +84,6 @@ pg = st.navigation(
         "Meus Pacientes": [descritivo_page, lista_pacientes_page, paciente_page], 
         "Minhas Consultas": [planos_alimentares_page], #  alertas
         "Meus Conteúdos": [conteudo_page] #video aulas; chat
-
     }
 )
 #pg = st.navigation([home_page, descritivo_page])
