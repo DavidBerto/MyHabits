@@ -12,7 +12,8 @@ pathDB = "/mount/src/myhabits/app/db/pacientes.csv"
 #pathDB = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/pacientes.csv"
 
 def base_connect():
-    cols = ['ID','photo','NOME', 'GENDER', 'STATUS','TAGS']
+    
+    cols = ['ID','photo','NOME', 'GENDER', 'STATUS','TAGS','FOTO_URL']
     #df_pacientes = pd.read_csv("/mount/src/myhabits/app/db/pacientes.csv", sep=";")
     df_pacientes = pd.read_csv(pathDB, sep=";")
     with open(pathPhoto, "rb") as image_file:

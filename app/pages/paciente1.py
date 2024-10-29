@@ -11,11 +11,12 @@ import os
 import plotly.express as px
 import plotly.graph_objects as go
 
-image = Image.open("/mount/src/myhabits/app/images/foto_david.jpg")
+
+Path_foto_paciente = "/mount/src/myhabits/app/images/"
 pathDBPerfil = "/mount/src/myhabits/app/db/pacientes.csv"
 pathDBMedidas = "/mount/src/myhabits/app/db/medidas.csv"
 
-#image = Image.open("C:/Users/david/OneDrive/Projetos/MyHabits/app/images/foto_david.jpg")
+#Path_foto_paciente = "C:/Users/david/OneDrive/Projetos/MyHabits/app/images/"
 #pathDBPerfil = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/pacientes.csv"
 #pathDBMedidas = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/medidas.csv"
 
@@ -127,6 +128,8 @@ dbMedidasPac = db_perfil(pacienteID1, pathDBMedidas) #pathDBMedidas = pathDBMedi
 col1, col2, col3 = st.columns([0.2,0.2, 0.4])
 
 #foto
+
+image = Image.open(Path_foto_paciente+str(dbPerfilPac["FOTO_URL"][0])+".jpg")
 col1.image(foto_circular(image),width = 200)
 col1.write(dbPerfilPac["APELIDO"][0])
 feedback = col1.feedback('stars')
