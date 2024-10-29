@@ -5,11 +5,11 @@ import numpy as np
 from PIL import Image, ImageDraw
 import base64
 
-#pathPhoto = "/mount/src/myhabits/app/images/foto_david.jpg"
-#pathDB = "/mount/src/myhabits/app/db/pacientes.csv"
+pathPhoto = "/mount/src/myhabits/app/images/foto_david.jpg"
+pathDB = "/mount/src/myhabits/app/db/pacientes.csv"
 
-pathPhoto = "C:/Users/david/OneDrive/Projetos/MyHabits/app/images/foto_david.jpg"
-pathDB = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/pacientes.csv"
+#pathPhoto = "C:/Users/david/OneDrive/Projetos/MyHabits/app/images/foto_david.jpg"
+#pathDB = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/pacientes.csv"
 
 def base_connect():
     cols = ['ID','photo','NOME', 'GENDER', 'STATUS','TAGS']

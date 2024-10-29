@@ -11,11 +11,13 @@ import os
 import plotly.express as px
 import plotly.graph_objects as go
 
-#image = Image.open("/mount/src/myhabits/app/images/foto_david.jpg")
+image = Image.open("/mount/src/myhabits/app/images/foto_david.jpg")
+pathDBPerfil = "/mount/src/myhabits/app/db/pacientes.csv"
+pathDBMedidas = "/mount/src/myhabits/app/db/medidas.csv"
 
-image = Image.open("C:/Users/david/OneDrive/Projetos/MyHabits/app/images/foto_david.jpg")
-pathDBPerfil = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/pacientes.csv"
-pathDBMedidas = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/medidas.csv"
+#image = Image.open("C:/Users/david/OneDrive/Projetos/MyHabits/app/images/foto_david.jpg")
+#pathDBPerfil = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/pacientes.csv"
+#pathDBMedidas = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/medidas.csv"
 
 pacienteID1 = 1
 # Configuração da página
