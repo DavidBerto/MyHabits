@@ -1,17 +1,18 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
 #import paciente 
-from PIL import Image
+from PIL import Image, ImageDraw
 import base64
 
-pathPhoto = "/mount/src/myhabits/app/images/foto_david.jpg"
-pathDB = "/mount/src/myhabits/app/db/pacientes.csv"
+#pathPhoto = "/mount/src/myhabits/app/images/foto_david.jpg"
+#pathDB = "/mount/src/myhabits/app/db/pacientes.csv"
 
-#pathPhoto = "C:/Users/david/OneDrive/Projetos/MyHabits/app/images/foto_david.jpg"
-#pathDB = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/pacientes.csv"
+pathPhoto = "C:/Users/david/OneDrive/Projetos/MyHabits/app/images/foto_david.jpg"
+pathDB = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/pacientes.csv"
 
 def base_connect():
-    cols = ['ID','photo','Nome', 'Gênero', 'Status','tags']
+    cols = ['ID','photo','NOME', 'GENDER', 'STATUS','TAGS']
     #df_pacientes = pd.read_csv("/mount/src/myhabits/app/db/pacientes.csv", sep=";")
     df_pacientes = pd.read_csv(pathDB, sep=";")
     with open(pathPhoto, "rb") as image_file:

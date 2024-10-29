@@ -4,20 +4,20 @@ from streamlit_carousel import carousel
 def atalhos():
     col1, col2, col3, col4 = st.columns(4)
 
-    if col1.button("Gestão"):
-        st.write("Gestão")
+    if col1.button("Relatórios"):
+        st.switch_page("pages/relatorio.py")
 
     if col2.button("Descritivo de prato"):
-        st.write("descritor de prato")
+        st.switch_page("pages/2_descritivo_prato.py")
 
     if col3.button("Lista de Pacientes"):
-        st.write("Lista de Pacientes")
+        st.switch_page("pages/lista_pacientes.py")
         
     if col4.button("Novo Paciente"):
-        st.write("Novo Paciente")
+        st.write("pages/paciente1.py")
         
     if col1.button("Agenda"):
-        st.write("Agenda")
+        st.write("pages/agenda.py")
 
 st.header("Transformando Hábitos em Saúde")
 

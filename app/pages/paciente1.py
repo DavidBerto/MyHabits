@@ -3,7 +3,7 @@ from streamlit_quill import st_quill
 import pandas as pd
 import numpy as np
 from datetime import datetime
-from PIL import Image
+from PIL import Image, ImageDraw
 
 import tempfile
 import os
@@ -11,16 +11,29 @@ import os
 import plotly.express as px
 import plotly.graph_objects as go
 
+#image = Image.open("/mount/src/myhabits/app/images/foto_david.jpg")
 
-image = Image.open("/mount/src/myhabits/app/images/foto_david.jpg")
-#image = Image.open("C:/Users/david/OneDrive/Projetos/MyHabits/app/images/foto_david.jpg")
+image = Image.open("C:/Users/david/OneDrive/Projetos/MyHabits/app/images/foto_david.jpg")
+pathDBPerfil = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/pacientes.csv"
+pathDBMedidas = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/medidas.csv"
 
+pacienteID1 = 1
 # Configuração da página
 #
 #foto
-def foto(path):
-    st.buttom("Editar foto")
-    return st.image(path)
+def foto_circular(img):
+    #st.buttom("Editar foto")
+    height,width = img.size
+    lum_img = Image.new('L', [height,width] , 0)
+    
+    draw = ImageDraw.Draw(lum_img)
+    draw.pieslice([(0,0), (height,width)], 0, 360, 
+                fill = 255, outline = "white")
+    img_arr =np.array(img)
+    lum_img_arr =np.array(lum_img)
+    #Image.fromarray(lum_img_arr).show()
+    final_img_arr = np.dstack((img_arr,lum_img_arr))
+    return Image.fromarray(final_img_arr)
 
 def obj_prediction(col):
     df_peso = pd.DataFrame(
@@ -96,20 +109,34 @@ def filter_dataframe(df, search_term, filters):
     
     return filtered_df
 
+def db_perfil(ID, pathDB):
+    df = pd.read_csv(pathDB, sep = ";")
+    filtered = df.loc[df["ID"] == ID]
+    return filtered
+def calc_idade(birthdate):
+    day,month,year = map(int, str(birthdate).split("-"))
+    today = datetime.date.today()
+    age = today.year - year - ((today.month, today.day) < (month, day))
+    return age
+#data fram do paciente
+dbPerfilPac = db_perfil(pacienteID1, pathDBPerfil)
+dbMedidasPac = db_perfil(pacienteID1, pathDBMedidas) #pathDBMedidas = pathDBMedidas
+
 col1, col2, col3 = st.columns([0.2,0.2, 0.4])
 
 #foto
-col1.image(image,width = 200)
+col1.image(foto_circular(image),width = 200)
+col1.write(dbPerfilPac["APELIDO"][0])
 feedback = col1.feedback('stars')
 
-#info gerais
-paciente_nome = "David Berto"
+#info gerais (dados de teste)
+paciente_nome = str(dbPerfilPac["NOME"][0]) + str(" ") + str(dbPerfilPac["SOBRENOME"][0])
 col2.subheader(paciente_nome, divider="gray")
 
-peso = 70
-altura = 1.70
-idade = 30
-genero = "Macho"
+peso = dbMedidasPac['PESO'][0]
+altura = dbMedidasPac["ALTURA"][0]
+idade = 30 #calc_idade(dbPerfilPac["DATA_NASC"][0])
+genero = dbPerfilPac["GENDER"][0]
 col2.write("Peso: "+str(peso)+"Kg")
 col2.write("Altura: "+str(altura)+"m")
 col2.write("Idade: "+str(idade)+" anos")
