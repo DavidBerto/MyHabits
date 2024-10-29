@@ -12,6 +12,9 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 
+image = Image.open("/mount/src/myhabits/app/images/foto_david.jpg")
+#image = Image.open("C:/Users/david/OneDrive/Projetos/MyHabits/app/images/foto_david.jpg")
+
 # Configuração da página
 #
 #foto
@@ -95,8 +98,6 @@ def filter_dataframe(df, search_term, filters):
 
 col1, col2, col3 = st.columns([0.2,0.2, 0.4])
 
-image = Image.open("/mount/src/myhabits/app/images/foto_david.jpg")
-#image = Image.open("C:/Users/david/OneDrive/Projetos/MyHabits/app/images/foto_david.jpg")
 #foto
 col1.image(image,width = 200)
 feedback = col1.feedback('stars')

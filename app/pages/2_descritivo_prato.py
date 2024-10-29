@@ -32,9 +32,6 @@ def describe_image(image_path):
     with open(image_path, "rb") as image_file:
         base64_image = base64.b64encode(image_file.read()).decode('utf-8')
 
-    # Path to your image
-    #image_path = "C:/Users/david/OneDrive/Área de Trabalho/bife-de-frango-coberto-com-gergelim-branco-ervilhas-tomates-brocolis-e-abobora-em-um-prato-branco-1.jpg" # Substitua pelo caminho da sua imagem
-
     headers = {
     "Content-Type": "application/json",
     "Authorization": f"Bearer {api_key}"

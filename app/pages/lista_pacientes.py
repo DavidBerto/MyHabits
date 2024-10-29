@@ -1,11 +1,22 @@
 import streamlit as st
 import pandas as pd
 #import paciente 
+from PIL import Image
+import base64
+
+pathPhoto = "/mount/src/myhabits/app/images/foto_david.jpg"
+pathDB = "/mount/src/myhabits/app/db/pacientes.csv"
+
+#pathPhoto = "C:/Users/david/OneDrive/Projetos/MyHabits/app/images/foto_david.jpg"
+#pathDB = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/pacientes.csv"
 
 def base_connect():
-    cols = ['ID','Nome', 'Gênero', 'Status','tags']
-    df_pacientes = pd.read_csv("/mount/src/myhabits/app/db/pacientes.csv", sep=";")
-    #df_pacientes = pd.read_csv("C:/Users/david/OneDrive/Projetos/MyHabits/app/db/pacientes.csv", sep=";")
+    cols = ['ID','photo','Nome', 'Gênero', 'Status','tags']
+    #df_pacientes = pd.read_csv("/mount/src/myhabits/app/db/pacientes.csv", sep=";")
+    df_pacientes = pd.read_csv(pathDB, sep=";")
+    with open(pathPhoto, "rb") as image_file:
+        base64_image = base64.b64encode(image_file.read()).decode('utf-8')
+    df_pacientes["photo"] = f"data:image/jpeg;base64,{base64_image}"
     #df_pacientes = df_pacientes.loc[df_pacientes['Nome'] == nome]
     return df_pacientes[cols]
 
@@ -24,6 +35,7 @@ left_col, right_col = st.columns([5,1])
 query = left_col.text_input("Busca","")
 
 def filter_dataframe(df, search_term):
+    
     return df[df.apply(lambda row: row.astype(str).str.contains(search_term, case=False).any(), axis=1)]
 
 def filtro_tabela(df):
@@ -47,6 +59,14 @@ else:
 
 st.data_editor(
     filtered_df,
+    column_config={
+        "photo": st.column_config.ImageColumn(
+            "Foto", help="Streamlit app preview screenshots"
+        ),
+        "ID": st.column_config.Column(
+            "Registro",
+            width="small"
+        )},
     hide_index=True,
     num_rows="dynamic",
     use_container_width=True
