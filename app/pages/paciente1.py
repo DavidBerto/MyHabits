@@ -1,8 +1,12 @@
 import streamlit as st
 from streamlit_quill import st_quill
 import pandas as pd
+import numpy as np
 from datetime import datetime
 from PIL import Image
+
+import tempfile
+import os
 
 import plotly.express as px
 import plotly.graph_objects as go
@@ -19,16 +23,16 @@ def obj_prediction(col):
     df_peso = pd.DataFrame(
         {
             #'Peso': [[90, 85, 82, 85, 83],],
-            'Peso': [90, 85, 82, 85, 83, 75],
+            'Peso': [90.2, 85.1, 82.5, 85.9, 83.4, 77],
             'Data': ['2022-01-01', '2022-02-02', '2022-03-03', '2022-04-04', '2022-05-05', '2022-06-06'],
-            'Ideal': [90, 86, 83, 80, 79, 70]
+            'Objetivo': [90.0, 86.5, 83.8, 80.4, 79.5, 70.2]
         }
     )
     
     # Criar o gráfico de linhas
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=df_peso['Data'], y=df_peso['Peso'], mode='lines', name='Peso Atual'))
-    fig.add_trace(go.Scatter(x=df_peso['Data'], y=df_peso['Ideal'], mode='lines', name='Peso Previsto'))
+    fig.add_trace(go.Scatter(x=df_peso['Data'], y=df_peso['Objetivo'], mode='lines', name='Peso Objetivo'))
     fig.update_layout(legend=dict(
         orientation="h",
         yanchor="bottom",
@@ -54,7 +58,7 @@ def page_medidas():
     col10, col11, col12 = st.columns(3)
     df_medidas = pd.DataFrame(columns=cols)
     #st.write("Data")
-    df_medidas['Data'] = col10.date_input('Data')
+    df_medidas['Data'] = col10.date_input('Data', format="DD/MM/YYYY")
     df_medidas['Peso'] = col10.number_input('Peso (kg)')
     df_medidas['Altura'] = col10.number_input('Altura (m)')
     df_medidas['Abdominal'] = col10.number_input("Circunferência Abdominal (cm)")
@@ -91,8 +95,8 @@ def filter_dataframe(df, search_term, filters):
 
 col1, col2, col3 = st.columns([0.2,0.2, 0.4])
 
-image = Image.open("/mount/src/myhabits/app/images/foto_david.jpg")
-#image = Image.open("C:/Users/david/OneDrive/Projetos/MyHabits/app/images/foto_david.jpg")
+#image = Image.open("/mount/src/myhabits/app/images/foto_david.jpg")
+image = Image.open("C:/Users/david/OneDrive/Projetos/MyHabits/app/images/foto_david.jpg")
 #foto
 col1.image(image,width = 200)
 feedback = col1.feedback('stars')
@@ -120,30 +124,42 @@ col3.markdown("""
 @st.dialog("Informações Pessoais", width='large')
 def perfil():
     tab1, tab2, tab3 = st.tabs(['Perfil', 'Endereço', 'Prontuário'])
-    with tab1:
-        apelido = st.text_input("Apelido")
-        
+    with tab1: #info pessoais
+        listTags = ["Moleque piranha", "Nutri João", "Bixo Grilo"]
         colperfil1, colperfil2 = st.columns(2)
+        apelido = colperfil1.text_input("Apelido")
+        ativo = colperfil2.checkbox("Ativo")
         nome = colperfil1.text_input("Nome")
         sobrenome = colperfil2.text_input("Sobrenome")
         genero = colperfil1.selectbox("Gênero", ["Masculino", "Feminino", "Outro"])
         email = colperfil2.text_input("E-mail")
         telefone = colperfil1.text_input("Telefone")
-        data_nasc = colperfil2.date_input("Data de Nascimento")
-        cpf = colperfil1.number_input("CPF")
-        tags = colperfil1.selectbox('Tags', ["Moleque piranha", "Nutri Jõao", "Bixo Grilo"])
-        obs = st.text_area("Observações")
+        data_nasc = colperfil2.date_input("Data de Nascimento", format="DD/MM/YYYY")
+        cpf = colperfil1.text_input("CPF")
+        tags = st.multiselect('Tags', listTags)
         
-    with tab2:
-        rua = st.text_input('Rua')
-        numero = st.text_input("Número")
-        complemento = st.text_input("Compl.")
-        bairro = st.text_input("Bairro")
-        cidade = st.text_input("Cidade")
-        estado = st.text_input("Estado")
+        colNovatag, colAddTag = st.columns([5,1])
+        if colAddTag.button("Add Tag"):
+            tag = colNovatag.text_input("Nova tag")
+            listTags.append(tag)
+        obs = st.text_area("Observações")    
         
-    with tab3:
-        st.write("Prontuário")
+    with tab2: #endereço
+        colCEP, _ = st.columns([1,3])
+        cep = colCEP.text_input("CEP")
+        
+        col1Ender, col2End, col3End = st.columns([2.5,0.5, 0.75])
+        endereco = col1Ender.text_input('Endereço')
+        numero = col2End.text_input("Número")
+        complemento = col3End.text_input("Compl.")
+        
+        colBairro, colCid, colUF = st.columns([2,1.5, 0.35])
+        bairro = colBairro.text_input("Bairro")
+        cidade = colCid.text_input("Cidade")
+        estado = colUF.text_input("UF")
+        
+    with tab3: #pronturário
+        #st.write("Prontuário")
         prontuario = st_quill("")
         
     if st.button("Salvar Informações"):
@@ -155,6 +171,9 @@ colPerfilEmail, colChatVideo = col3.columns(2)
 if "perfil" not in st.session_state:
     if colPerfilEmail.button("Info. Pessoais"):
         perfil()
+        
+if colPerfilEmail.button("Info. Pessoais "):
+    perfil()
 
 if colPerfilEmail.button('E-mail'):
     colPerfilEmail.write('E-mail')
@@ -162,7 +181,8 @@ if colChatVideo.button('Chat'):
     colChatVideo.write('Chat')
 if colChatVideo.button('Videochamada'):
     colChatVideo.write('Videochamada')
-    
+if colChatVideo.button('Lista de Pacientes'):
+    st.switch_page("pages/lista_pacientes.py")
     
 #Gráfico de evolução de peso
 colEvol, colEvolBut = st.columns([0.5,3])
@@ -192,7 +212,18 @@ with st.expander("Anamnese"):
     dfPatologia = st.multiselect("Patologias",patologias)
     dfOutrasPatologia = st.text_area("Outras Patologias")  
     dfMedicamentos = st.text_area("Medicamentos")    
-    dfHisto = st.text_input("HIstórico Familiar")
+    dfHisto = st.text_area("Histórico Familiar")
+    dfExame = st.file_uploader("Carregar exame", type=["jpg", "jpeg", "pdf"])
+    if dfExame:
+        temp_dir = tempfile.mkdtemp()
+        path = os.path.join(temp_dir, dfExame.name)
+
+        with open(path, "wb") as f:
+            f.write(dfExame)
+    _, colexame = st.columns([5,0.5])
+    if colexame.button('Salvar exames'):
+        st.toast("Exames Salvos!")
+        
     if st.button('Salvar Dados'):
         st.write("Registros Salvos!")
         st.toast("Registros Salvos!")
