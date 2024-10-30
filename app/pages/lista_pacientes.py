@@ -4,23 +4,30 @@ import numpy as np
 #import paciente 
 from PIL import Image, ImageDraw
 import base64
+import os
 
-pathPhoto = "/mount/src/myhabits/app/images/foto_david.jpg"
-pathDB = "/mount/src/myhabits/app/db/pacientes.csv"
+#pathPhoto = "/mount/src/myhabits/app/images/foto_david.jpg"
+#pathDB = "/mount/src/myhabits/app/db/pacientes.csv"
 
-#pathPhoto = "C:/Users/david/OneDrive/Projetos/MyHabits/app/images/foto_david.jpg"
-#pathDB = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/pacientes.csv"
+pathPhotoURL = "C:/Users/david/OneDrive/Projetos/MyHabits/app/images/"
+pathDB = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/pacientes.csv"
 
 def base_connect():
     
-    cols = ['ID','photo','NOME', 'GENDER', 'STATUS','TAGS','FOTO_URL']
+    cols = ['ID','photo','APELIDO','NOME', 'GENDER', 'STATUS','TAGS','FOTO_URL']
     #df_pacientes = pd.read_csv("/mount/src/myhabits/app/db/pacientes.csv", sep=";")
     df_pacientes = pd.read_csv(pathDB, sep=";")
-    with open(pathPhoto, "rb") as image_file:
-        base64_image = base64.b64encode(image_file.read()).decode('utf-8')
-    df_pacientes["photo"] = f"data:image/jpeg;base64,{base64_image}"
+    listaFoto64 = []
+    for i in df_pacientes["FOTO_URL"]:
+        pathPhoto = pathPhotoURL+str(i)+".jpg"
+        if os.path.exists(pathPhoto):
+            with open(pathPhoto, "rb") as image_file:
+                base64_image = base64.b64encode(image_file.read()).decode('utf-8')
+            listaFoto64.append(f"data:image/jpeg;base64,{base64_image}")
+        else: listaFoto64.append("")
+    df_pacientes["photo"] = listaFoto64
     #df_pacientes = df_pacientes.loc[df_pacientes['Nome'] == nome]
-    return df_pacientes[cols]
+    return df_pacientes[['photo','NOME','APELIDO', 'GENDER', 'STATUS','TAGS']]
 
 #def novo_paciente():
     # Nome, Endereço, medidas
@@ -63,11 +70,14 @@ st.data_editor(
     filtered_df,
     column_config={
         "photo": st.column_config.ImageColumn(
-            "Foto", help="Streamlit app preview screenshots"
+            "FOTO", help="Streamlit app preview screenshots"
         ),
         "ID": st.column_config.Column(
             "Registro",
-            width="small"
+            width="small",
+        ),
+        "GENDER": st.column_config.Column(
+            "GÊNERO"
         )},
     hide_index=True,
     num_rows="dynamic",

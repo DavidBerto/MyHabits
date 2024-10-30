@@ -11,14 +11,16 @@ import os
 import plotly.express as px
 import plotly.graph_objects as go
 
-#image = Image.open("/mount/src/myhabits/app/images/foto_david.jpg")
 
+#Path_foto_paciente = "/mount/src/myhabits/app/images/"
+#pathDBPerfil = "/mount/src/myhabits/app/db/pacientes.csv"
+#pathDBMedidas = "/mount/src/myhabits/app/db/medidas.csv"
 
-image = Image.open("C:/Users/david/OneDrive/Projetos/MyHabits/app/images/foto_david.jpg")
+Path_foto_paciente = "C:/Users/david/OneDrive/Projetos/MyHabits/app/images/"
 pathDBPerfil = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/pacientes.csv"
 pathDBMedidas = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/medidas.csv"
 
-pacienteID1 = 1
+pacienteID1 = 3
 # Configuração da página
 #
 #foto
@@ -112,25 +114,15 @@ def filter_dataframe(df, search_term, filters):
 
 def db_perfil(ID, pathDB):
     df = pd.read_csv(pathDB, sep = ";")
-
     filtered = df.loc[df["ID"] == ID]
     return filtered
 def calc_idade(birthdate):
-    day,month,year = map(int, birthdate.split("-"))
+    day,month,year = map(int, str(birthdate).split("-"))
     today = datetime.date.today()
     age = today.year - year - ((today.month, today.day) < (month, day))
     return age
-
-col1, col2, col3 = st.columns([0.2,0.2, 0.4])
-
-#foto
-col1.image(foto_circular(image),width = 200)
-feedback = col1.feedback('stars')
-
-#idade = calc_idade(pathDBPerfil["DATA_NASC"])
 #data fram do paciente
 dbPerfilPac = db_perfil(pacienteID1, pathDBPerfil)
 dbMedidasPac = db_perfil(pacienteID1, pathDBMedidas) #pathDBMedidas = pathDBMedidas
-#st.header(pathDBPerfil["DATA_NASC"])
 st.table(dbPerfilPac)
-st.write(str(dbPerfilPac["DATA_NASC"][0]))
+st.write(dbPerfilPac['CIDADE'][2])

@@ -12,15 +12,15 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 
-Path_foto_paciente = "/mount/src/myhabits/app/images/"
-pathDBPerfil = "/mount/src/myhabits/app/db/pacientes.csv"
-pathDBMedidas = "/mount/src/myhabits/app/db/medidas.csv"
+#Path_foto_paciente = "/mount/src/myhabits/app/images/"
+#pathDBPerfil = "/mount/src/myhabits/app/db/pacientes.csv"
+#pathDBMedidas = "/mount/src/myhabits/app/db/medidas.csv"
 
-#Path_foto_paciente = "C:/Users/david/OneDrive/Projetos/MyHabits/app/images/"
-#pathDBPerfil = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/pacientes.csv"
-#pathDBMedidas = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/medidas.csv"
+Path_foto_paciente = "C:/Users/david/OneDrive/Projetos/MyHabits/app/images/"
+pathDBPerfil = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/pacientes.csv"
+pathDBMedidas = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/medidas.csv"
 
-pacienteID1 = 1
+pacienteID1 = 3
 # Configuração da página
 #
 #foto
@@ -129,19 +129,20 @@ col1, col2, col3 = st.columns([0.2,0.2, 0.4])
 
 #foto
 
-image = Image.open(Path_foto_paciente+str(dbPerfilPac["FOTO_URL"][0])+".jpg")
+idref = pacienteID1-1
+image = Image.open(Path_foto_paciente+str(dbPerfilPac["FOTO_URL"][idref])+".jpg")
 col1.image(foto_circular(image),width = 200)
-col1.write(dbPerfilPac["APELIDO"][0])
+col1.write(dbPerfilPac["APELIDO"][idref])
 feedback = col1.feedback('stars')
 
 #info gerais (dados de teste)
-paciente_nome = str(dbPerfilPac["NOME"][0]) + str(" ") + str(dbPerfilPac["SOBRENOME"][0])
+paciente_nome = str(dbPerfilPac["NOME"][idref]) + str(" ") + str(dbPerfilPac["SOBRENOME"][idref])
 col2.subheader(paciente_nome, divider="gray")
 
-peso = dbMedidasPac['PESO'][0]
-altura = dbMedidasPac["ALTURA"][0]
+peso = dbMedidasPac['PESO'][idref]
+altura = dbMedidasPac["ALTURA"][idref]
 idade = 30 #calc_idade(dbPerfilPac["DATA_NASC"][0])
-genero = dbPerfilPac["GENDER"][0]
+genero = dbPerfilPac["GENDER"][idref]
 col2.write("Peso: "+str(peso)+"Kg")
 col2.write("Altura: "+str(altura)+"m")
 col2.write("Idade: "+str(idade)+" anos")
@@ -261,11 +262,11 @@ with st.expander("Anamnese"):
         st.write("Registros Salvos!")
         st.toast("Registros Salvos!")
 
-with st.expander("Permissões App"):
+with st.expander("Funcionalidades App"):
     checkAssistente = st.checkbox("Assistente Virtual")
     checkAlertaAgua = st.checkbox("Alerta de Água")
     checkAlertaDiario = st.checkbox("Alerta Atualização Refeição")
-    checkAlerta = st.checkbox("Alerta ")
+    checkAlerta = st.checkbox("Modo Espião (Redes Sociais)")
     
     _, col8, col9 = st.columns([3,0.5,0.5])
     
