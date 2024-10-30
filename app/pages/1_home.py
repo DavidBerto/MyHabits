@@ -14,10 +14,10 @@ def atalhos():
         st.switch_page("pages/lista_pacientes.py")
         
     if col4.button("Novo Paciente"):
-        st.write("pages/paciente1.py")
+        st.switch_page("pages/paciente1.py")
         
     if col1.button("Agenda"):
-        st.write("pages/agenda.py")
+        st.switch_page("pages/agenda.py")
 
 st.header("Transformando Hábitos em Saúde")
 

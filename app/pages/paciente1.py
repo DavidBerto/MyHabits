@@ -2,7 +2,7 @@ import streamlit as st
 from streamlit_quill import st_quill
 import pandas as pd
 import numpy as np
-from datetime import datetime
+from datetime import date
 from PIL import Image, ImageDraw
 
 import tempfile
@@ -12,13 +12,13 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 
-Path_foto_paciente = "/mount/src/myhabits/app/images/"
-pathDBPerfil = "/mount/src/myhabits/app/db/pacientes.csv"
-pathDBMedidas = "/mount/src/myhabits/app/db/medidas.csv"
+#Path_foto_paciente = "/mount/src/myhabits/app/images/"
+#pathDBPerfil = "/mount/src/myhabits/app/db/pacientes.csv"
+#pathDBMedidas = "/mount/src/myhabits/app/db/medidas.csv"
 
-#Path_foto_paciente = "C:/Users/david/OneDrive/Projetos/MyHabits/app/images/"
-#pathDBPerfil = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/pacientes.csv"
-#pathDBMedidas = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/medidas.csv"
+Path_foto_paciente = "C:/Users/david/OneDrive/Projetos/MyHabits/app/images/"
+pathDBPerfil = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/pacientes.csv"
+pathDBMedidas = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/medidas.csv"
 
 pacienteID1 = 3
 # Configuração da página
@@ -91,7 +91,7 @@ def page_medidas():
     df_medidas['Supra-espinal'] = col12.number_input("Supra-espinal (cm)")
     df_medidas['Coxa'] = col12.number_input("Coxa (cm)")
 
-    if st.button("Salvar"):
+    if st.button("Salvar", key = "MedidasSalvar"):
         st.write("Medidas Salvas")
         st.toast("Medidas Salvas")
 #def suporte():       
@@ -117,9 +117,11 @@ def db_perfil(ID, pathDB):
     filtered = df.loc[df["ID"] == ID]
     return filtered
 def calc_idade(birthdate):
-    day,month,year = map(int, str(birthdate).split("-"))
-    today = datetime.date.today()
-    age = today.year - year - ((today.month, today.day) < (month, day))
+    if birthdate is not None:
+        day,month,year = map(int, str(birthdate).split("/"))
+        today = date.today()
+        age = today.year - year - ((today.month, today.day) < (month, day))
+    else: age = 0
     return age
 #data fram do paciente
 dbPerfilPac = db_perfil(pacienteID1, pathDBPerfil)
@@ -141,37 +143,45 @@ col2.subheader(paciente_nome, divider="gray")
 
 peso = dbMedidasPac['PESO'][idref]
 altura = dbMedidasPac["ALTURA"][idref]
-idade = 30 #calc_idade(dbPerfilPac["DATA_NASC"][0])
+idade = calc_idade(dbPerfilPac["DATA_NASC"][idref])
 genero = dbPerfilPac["GENDER"][idref]
+ocupacao = dbPerfilPac["OCCUPATION"][idref]
+
 col2.write("Peso: "+str(peso)+"Kg")
 col2.write("Altura: "+str(altura)+"m")
 col2.write("Idade: "+str(idade)+" anos")
-col2.write("Gênero: "+str(genero))
+col2.write("Gênero Biológico: "+str(genero))
+col2.write("Ocupação: "+str(ocupacao))
 
 #resumo
 col3.markdown("##### Resumo")
 col3.markdown("""
-            * Caloteiro 
+            * perfil DIsciplinado
+            * Inadimplente 
             * Não come ovo
             * não atualiza o diário a 7 dias""")
 
+#área de acesso rápido
+colPerfil1, colPerfil2 = col3.columns(2)
+        
 @st.dialog("Informações Pessoais", width='large')
 def perfil():
     tab1, tab2, tab3 = st.tabs(['Perfil', 'Endereço', 'Prontuário'])
     with tab1: #info pessoais
         listTags = ["Moleque piranha", "Nutri João", "Bixo Grilo"]
         colperfil1, colperfil2 = st.columns(2)
+
         apelido = colperfil1.text_input("Apelido")
-        ativo = colperfil2.checkbox("Ativo")
         nome = colperfil1.text_input("Nome")
-        sobrenome = colperfil2.text_input("Sobrenome")
-        genero = colperfil1.selectbox("Gênero", ["Masculino", "Feminino", "Outro"])
-        email = colperfil2.text_input("E-mail")
-        telefone = colperfil1.text_input("Telefone")
-        data_nasc = colperfil2.date_input("Data de Nascimento", format="DD/MM/YYYY")
-        cpf = colperfil1.text_input("CPF")
-        tags = st.multiselect('Tags', listTags)
+        genero = colperfil1.selectbox("Gênero Biológico", ["Masculino", "Feminino"])
+        ocupacao = colperfil1.text_input("Ocupação")
         
+        data_nasc = colperfil2.date_input("Data de Nascimento", format="DD/MM/YYYY")
+        sobrenome = colperfil2.text_input("Sobrenome")
+        telefone = colperfil2.text_input("Telefone")
+        email = colperfil2.text_input("E-mail")
+        
+        tags = st.multiselect('Tags', listTags)
         colNovatag, colAddTag = st.columns([5,1])
         if colAddTag.button("Add Tag"):
             tag = colNovatag.text_input("Nova tag")
@@ -196,35 +206,43 @@ def perfil():
         #st.write("Prontuário")
         prontuario = st_quill("")
         
-    if st.button("Salvar Informações"):
+    if st.button("Salvar", key="SalvarPerfil"):
             st.session_state.perfil = 'perfil'
+            #if colPerfilEmail.button("Info. Pessoais", key='InfoPessoais'):
+            #    perfil()
             st.rerun()
             
-colPerfilEmail, colChatVideo = col3.columns(2)
-
-if "perfil" not in st.session_state:
-    if colPerfilEmail.button("Info. Pessoais"):
-        perfil()
-        
-if colPerfilEmail.button("Info. Pessoais "):
+if "perfil" in st.session_state:
     perfil()
+ 
+#botões de acesso rápido    
+if colPerfil1.button("Info. Pessoais"):
+    perfil()
+if colPerfil1.button('Pré Consulta'):  
+    st.write("Pré Consulta")
+if colPerfil1.button('Lista de Pacientes'):
+    st.switch_page("pages/lista_pacientes.py")    
 
-if colPerfilEmail.button('E-mail'):
-    colPerfilEmail.write('E-mail')
-if colChatVideo.button('Chat'):
-    colChatVideo.write('Chat')
-if colChatVideo.button('Videochamada'):
-    colChatVideo.write('Videochamada')
-if colChatVideo.button('Lista de Pacientes'):
-    st.switch_page("pages/lista_pacientes.py")
+if colPerfil2.button('E-mail'):
+    colPerfil2.write('E-mail')
+if colPerfil2.button('Chat'):
+    colPerfil2.write('Chat')
+if colPerfil2.button('Videochamada'):
+    colPerfil2.write('Videochamada')
+
     
-#Gráfico de evolução de peso
+#Gráfico de evolução 
 colEvol, colEvolBut = st.columns([0.5,3])
 colEvol.markdown("### Evolução")
 if colEvolBut.button("Detalhes da Evolução"):
     st.toast("Ta indo bem!!!")
 obj_prediction(st)
 
+#funções detalhadas
+with st.expander("Detalhes do Perfil"):
+    st.write("Detalhes do perfil")
+    st.write("Metas")
+    
 with st.expander("Medidas Antropométricas"):
     _, col4, col5 = st.columns([3,0.5,0.5])
     if col4.button("Detalhes das Medidas"):
@@ -241,7 +259,7 @@ with st.expander("Planos alimentares"):
 with st.expander("Anamnese"):
     colInicio, colData = st.columns([3,1])
     colInicio.text_input("Caso Clínico")
-    colData.date_input("Data", format="DD/MM/YYYY")
+    colData.date_input("Data", format="DD/MM/YYYY", key="DataAnamnese")
     patologias = ["Ansiedade", "Cancer", "Gasrite", "DIabetes", "Gota"]
     dfPatologia = st.multiselect("Patologias",patologias)
     dfOutrasPatologia = st.text_area("Outras Patologias")  
@@ -255,10 +273,10 @@ with st.expander("Anamnese"):
         with open(path, "wb") as f:
             f.write(dfExame)
     _, colexame = st.columns([5,0.5])
-    if colexame.button('Salvar exames'):
+    if colexame.button('Salvar', key="SalvarExames"):
         st.toast("Exames Salvos!")
         
-    if st.button('Salvar Dados'):
+    if st.button('Salvar', key="SalvarAnamnese"):
         st.write("Registros Salvos!")
         st.toast("Registros Salvos!")
 
@@ -270,6 +288,6 @@ with st.expander("Funcionalidades App"):
     
     _, col8, col9 = st.columns([3,0.5,0.5])
     
-    if col9.button("Salvar Modificações"):
+    if col9.button("Salvar", key = "SalvarApp"):
         st.toast("Salvo com Sucesso!")
  

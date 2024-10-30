@@ -2,7 +2,7 @@ import streamlit as st
 from streamlit_quill import st_quill
 import pandas as pd
 import numpy as np
-from datetime import datetime
+from datetime import date
 from PIL import Image, ImageDraw
 
 import tempfile
@@ -20,7 +20,7 @@ Path_foto_paciente = "C:/Users/david/OneDrive/Projetos/MyHabits/app/images/"
 pathDBPerfil = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/pacientes.csv"
 pathDBMedidas = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/medidas.csv"
 
-pacienteID1 = 3
+pacienteID1 = 1
 # Configuração da página
 #
 #foto
@@ -117,12 +117,29 @@ def db_perfil(ID, pathDB):
     filtered = df.loc[df["ID"] == ID]
     return filtered
 def calc_idade(birthdate):
-    day,month,year = map(int, str(birthdate).split("-"))
-    today = datetime.date.today()
+    day,month,year = map(int, str(birthdate).split("/"))
+    today = date.today()
     age = today.year - year - ((today.month, today.day) < (month, day))
     return age
 #data fram do paciente
 dbPerfilPac = db_perfil(pacienteID1, pathDBPerfil)
 dbMedidasPac = db_perfil(pacienteID1, pathDBMedidas) #pathDBMedidas = pathDBMedidas
-st.table(dbPerfilPac)
-st.write(dbPerfilPac['CIDADE'][2])
+
+col1, col2, col3 = st.columns([0.2,0.2, 0.4])
+
+#foto
+
+idref = pacienteID1-1
+image = Image.open(Path_foto_paciente+str(dbPerfilPac["FOTO_URL"][idref])+".jpg")
+col1.image(foto_circular(image),width = 200)
+col1.write(dbPerfilPac["APELIDO"][idref])
+feedback = col1.feedback('stars')
+
+#info gerais (dados de teste)
+paciente_nome = str(dbPerfilPac["NOME"][idref]) + str(" ") + str(dbPerfilPac["SOBRENOME"][idref])
+col2.subheader(paciente_nome, divider="gray")
+
+peso = dbMedidasPac['PESO'][idref]
+altura = dbMedidasPac["ALTURA"][idref] 
+idade = calc_idade(dbPerfilPac["DATA_NASC"][idref])
+st.header("IDade: "+str(idade)+" Anos")  
