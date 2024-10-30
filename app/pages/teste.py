@@ -1,145 +1,57 @@
 import streamlit as st
-from streamlit_quill import st_quill
-import pandas as pd
-import numpy as np
-from datetime import date
-from PIL import Image, ImageDraw
+from streamlit_elements import elements, mui, html, sync
 
-import tempfile
-import os
-
-import plotly.express as px
-import plotly.graph_objects as go
+IMAGES = [
+    "https://unsplash.com/photos/GJ8ZQV7eGmU/download?force=true&w=1920",
+    "https://unsplash.com/photos/eHlVZcSrjfg/download?force=true&w=1920",
+    "https://unsplash.com/photos/zVhYcSjd7-Q/download?force=true&w=1920",
+    "https://unsplash.com/photos/S5uIITJDq8Y/download?ixid=MnwxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjUyOTAzMzAz&force=true&w=1920",
+    "https://unsplash.com/photos/E4bmf8BtIBE/download?ixid=MnwxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjUyOTEzMzAw&force=true&w=1920",
+]
 
 
-#Path_foto_paciente = "/mount/src/myhabits/app/images/"
-#pathDBPerfil = "/mount/src/myhabits/app/db/pacientes.csv"
-#pathDBMedidas = "/mount/src/myhabits/app/db/medidas.csv"
+def slideshow_swipeable(images):
+    # Generate a session state key based on images.
+    key = f"slideshow_swipeable_{str(images).encode().hex()}"
 
-Path_foto_paciente = "C:/Users/david/OneDrive/Projetos/MyHabits/app/images/"
-pathDBPerfil = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/pacientes.csv"
-pathDBMedidas = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/medidas.csv"
+    # Initialize the default slideshow index.
+    if key not in st.session_state:
+        st.session_state[key] = 0
 
-pacienteID1 = 1
-# Configuração da página
-#
-#foto
-def foto_circular(img):
-    #st.buttom("Editar foto")
-    height,width = img.size
-    lum_img = Image.new('L', [height,width] , 0)
-    
-    draw = ImageDraw.Draw(lum_img)
-    draw.pieslice([(0,0), (height,width)], 0, 360, 
-                fill = 255, outline = "white")
-    img_arr =np.array(img)
-    lum_img_arr =np.array(lum_img)
-    #Image.fromarray(lum_img_arr).show()
-    final_img_arr = np.dstack((img_arr,lum_img_arr))
-    return Image.fromarray(final_img_arr)
+    # Get the current slideshow index.
+    index = st.session_state[key]
 
-def obj_prediction(col):
-    df_peso = pd.DataFrame(
-        {
-            #'Peso': [[90, 85, 82, 85, 83],],
-            'Peso': [90.2, 85.1, 82.5, 85.9, 83.4, 77],
-            'Data': ['2022-01-01', '2022-02-02', '2022-03-03', '2022-04-04', '2022-05-05', '2022-06-06'],
-            'Objetivo': [90.0, 86.5, 83.8, 80.4, 79.5, 70.2]
-        }
-    )
-    
-    # Criar o gráfico de linhas
-    fig = go.Figure()
-    fig.add_trace(go.Scatter(x=df_peso['Data'], y=df_peso['Peso'], mode='lines', name='Peso Atual'))
-    fig.add_trace(go.Scatter(x=df_peso['Data'], y=df_peso['Objetivo'], mode='lines', name='Peso Objetivo'))
-    fig.update_layout(legend=dict(
-        orientation="h",
-        yanchor="bottom",
-        y=1.02,
-        xanchor="right",
-        x=1),
-            margin=dict(l=10, r=10, t=20, b=10)
-        )
-# Mostrar o gráfico no Streamlit
-    col.plotly_chart(fig)
+    # Create a new elements frame.
+    with elements(f"frame_{key}"):
 
-def update_dataframe(df, index, new_data):
-    if index is None:  # Nova linha
-        df = pd.concat([df, pd.DataFrame([new_data])], ignore_index=True)
-    else:  # Atualizar linha existente
-        df.loc[index] = new_data
-    return df
+        # Use mui.Stack to vertically display the slideshow and the pagination centered.
+        # https://mui.com/material-ui/react-stack/#usage
+        with mui.Stack(spacing=2, alignItems="center"):
 
-def page_medidas():
-    st.write("Atualize suas medidas")
-    cols = ['Data', 'Peso', 'Altura', 'Abdominal','Tríceps','Subescapular','Bíceps','Axilar média',
-            'Torácica ou peitoral','Supra-ilíaca','Supra-espinal','Coxa','Panturrilha medial']
-    col10, col11, col12 = st.columns(3)
-    df_medidas = pd.DataFrame(columns=cols)
-    #st.write("Data")
-    df_medidas['Data'] = col10.date_input('Data', format="DD/MM/YYYY")
-    df_medidas['Peso'] = col10.number_input('Peso (kg)')
-    df_medidas['Altura'] = col10.number_input('Altura (m)')
-    df_medidas['Abdominal'] = col10.number_input("Circunferência Abdominal (cm)")
-    df_medidas['Tríceps'] = col10.number_input("Tríceps (cm)")
-    df_medidas['Subescapular'] = col11.number_input("Subescapular (cm)")
-    df_medidas['Bíceps'] = col11.number_input("Bíceps (cm)")
-    df_medidas['Axilar média'] = col11.number_input("Axilar média (cm)")
-    df_medidas['Torácica ou peitoral'] = col11.number_input("Torácica ou peitoral (cm)")
-    df_medidas['Supra-ilíaca'] = col12.number_input("Supra-ilíaca (cm)")
-    df_medidas['Panturrilha medial'] = col12.number_input("Panturrilha medial (cm)")
-    df_medidas['Supra-espinal'] = col12.number_input("Supra-espinal (cm)")
-    df_medidas['Coxa'] = col12.number_input("Coxa (cm)")
+            # Create a swipeable view that updates st.session_state[key] thanks to sync().
+            # It also sets the index so that changing the pagination (see below) will also
+            # update the swipeable view.
+            # https://mui.com/material-ui/react-tabs/#full-width
+            # https://react-swipeable-views.com/demos/demos/
+            with mui.SwipeableViews(index=index, resistance=True, onChangeIndex=sync(key)):
+                for image in images:
+                    html.img(src=image, css={"width": "100%"})
 
-    if st.button("Salvar"):
-        st.write("Medidas Salvas")
-        st.toast("Medidas Salvas")
-#def suporte():       
+            # Create a handler for mui.Pagination.
+            # https://mui.com/material-ui/react-pagination/#controlled-pagination
+            def handle_change(event, value):
+                # Pagination starts at 1, but our index starts at 0, explaining the '-1'.
+                st.session_state[key] = value-1
+
+            # Display the pagination.
+            # As the index value can also be updated by the swipeable view, we explicitely
+            # set the page value to index+1 (page value starts at 1).
+            # https://mui.com/material-ui/react-pagination/#controlled-pagination
+            mui.Pagination(page=index+1, count=len(images), color="primary", onChange=handle_change)
 
 
-# Função para filtrar o DataFrame com base no termo de busca e nos filtros selecionados
-def filter_dataframe(df, search_term, filters):
-    filtered_df = df.copy()
-    
-    # Aplicar filtros de coluna
-    for column, values in filters.items():
-        if values:
-            filtered_df = filtered_df[filtered_df[column].isin(values)]
-    
-    # Aplicar termo de busca
-    if search_term:
-        filtered_df = filtered_df[filtered_df.apply(lambda row: row.astype(str).str.contains(search_term, case=False).any(), axis=1)]
-    
-    return filtered_df
+if __name__ == '__main__':
+    st.title("Streamlit Elements Slideshow")
 
-def db_perfil(ID, pathDB):
-    df = pd.read_csv(pathDB, sep = ";")
-    filtered = df.loc[df["ID"] == ID]
-    return filtered
-def calc_idade(birthdate):
-    day,month,year = map(int, str(birthdate).split("/"))
-    today = date.today()
-    age = today.year - year - ((today.month, today.day) < (month, day))
-    return age
-#data fram do paciente
-dbPerfilPac = db_perfil(pacienteID1, pathDBPerfil)
-dbMedidasPac = db_perfil(pacienteID1, pathDBMedidas) #pathDBMedidas = pathDBMedidas
-
-col1, col2, col3 = st.columns([0.2,0.2, 0.4])
-
-#foto
-
-idref = pacienteID1-1
-image = Image.open(Path_foto_paciente+str(dbPerfilPac["FOTO_URL"][idref])+".jpg")
-col1.image(foto_circular(image),width = 200)
-col1.write(dbPerfilPac["APELIDO"][idref])
-feedback = col1.feedback('stars')
-
-#info gerais (dados de teste)
-paciente_nome = str(dbPerfilPac["NOME"][idref]) + str(" ") + str(dbPerfilPac["SOBRENOME"][idref])
-col2.subheader(paciente_nome, divider="gray")
-
-peso = dbMedidasPac['PESO'][idref]
-altura = dbMedidasPac["ALTURA"][idref] 
-idade = calc_idade(dbPerfilPac["DATA_NASC"][idref])
-st.header("IDade: "+str(idade)+" Anos")  
+    st.subheader("Swipeable slideshow")
+    slideshow_swipeable(IMAGES)
