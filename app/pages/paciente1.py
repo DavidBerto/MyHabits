@@ -262,8 +262,10 @@ with st.expander("Anamnese"):
     colData.date_input("Data", format="DD/MM/YYYY", key="DataAnamnese")
     patologias = ["Ansiedade", "Cancer", "Gasrite", "DIabetes", "Gota"]
     dfPatologia = st.multiselect("Patologias",patologias)
-    dfOutrasPatologia = st.text_area("Outras Patologias")  
-    dfMedicamentos = st.text_area("Medicamentos")    
+    dfOutrasPatologia = st.text_area("Outras Patologias") 
+    dfEstiloVida = st.text_area("Hábitos/Estilo de Vida") 
+    dfMedicamentos = st.text_area("Medicamentos")
+    dfSintomass = st.text_area("Sintomas")      
     dfHisto = st.text_area("Histórico Familiar")
     dfExame = st.file_uploader("Carregar exame", type=["jpg", "jpeg", "pdf"])
     if dfExame:
