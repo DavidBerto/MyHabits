@@ -6,11 +6,11 @@ from PIL import Image, ImageDraw
 import base64
 import os
 
-#pathPhoto = "/mount/src/myhabits/app/images/foto_david.jpg"
-#pathDB = "/mount/src/myhabits/app/db/pacientes.csv"
+pathPhoto = "/mount/src/myhabits/app/images/foto_david.jpg"
+pathDB = "/mount/src/myhabits/app/db/pacientes.csv"
 
-pathPhotoURL = "C:/Users/david/OneDrive/Projetos/MyHabits/app/images/"
-pathDB = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/pacientes.csv"
+#pathPhotoURL = "C:/Users/david/OneDrive/Projetos/MyHabits/app/images/"
+#pathDB = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/pacientes.csv"
 
 def base_connect():
     
