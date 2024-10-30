@@ -77,7 +77,7 @@ def page_medidas():
     col10, col11, col12 = st.columns(3)
     df_medidas = pd.DataFrame(columns=cols)
     #st.write("Data")
-    df_medidas['Data'] = col10.date_input('Data', format="DD/MM/YYYY")
+    df_medidas['Data'] = col10.date_input('Data', format="DD/MM/YYYY", key = "MedidasData")
     df_medidas['Peso'] = col10.number_input('Peso (kg)')
     df_medidas['Altura'] = col10.number_input('Altura (m)')
     df_medidas['Abdominal'] = col10.number_input("Circunferência Abdominal (cm)")
@@ -176,7 +176,7 @@ def perfil():
         genero = colperfil1.selectbox("Gênero Biológico", ["Masculino", "Feminino"])
         ocupacao = colperfil1.text_input("Ocupação")
         
-        data_nasc = colperfil2.date_input("Data de Nascimento", format="DD/MM/YYYY")
+        data_nasc = colperfil2.date_input("Data de Nascimento", format="DD/MM/YYYY", key="data_nasc")
         sobrenome = colperfil2.text_input("Sobrenome")
         telefone = colperfil2.text_input("Telefone")
         email = colperfil2.text_input("E-mail")
