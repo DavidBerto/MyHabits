@@ -6,7 +6,7 @@ from PIL import Image, ImageDraw
 import base64
 import os
 
-pathPhoto = "/mount/src/myhabits/app/images/foto_david.jpg"
+pathPhotoURL = "/mount/src/myhabits/app/images/foto_david.jpg"
 pathDB = "/mount/src/myhabits/app/db/pacientes.csv"
 
 #pathPhotoURL = "C:/Users/david/OneDrive/Projetos/MyHabits/app/images/"

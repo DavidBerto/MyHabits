@@ -17,7 +17,6 @@ pathDBPerfil = "/mount/src/myhabits/app/db/pacientes.csv"
 pathDBMedidas = "/mount/src/myhabits/app/db/medidas.csv"
 
 #Path_foto_paciente = "C:/Users/david/OneDrive/Projetos/MyHabits/app/images/"
-
 #pathDBPerfil = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/pacientes.csv"
 #pathDBMedidas = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/medidas.csv"
 
