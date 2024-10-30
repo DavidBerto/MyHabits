@@ -223,7 +223,7 @@ def perfil():
             #    perfil()
             st.rerun()
             
-if "perfil" not in st.session_state:
+if "perfil" in st.session_state:
     perfil()
     
 #botões de acesso rápido    
