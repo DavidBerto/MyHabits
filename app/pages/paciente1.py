@@ -217,7 +217,7 @@ def perfil():
         prontuario = st_quill("")
         
     if st.button("Salvar", key="SalvarPerfil"):
-            st.session_state.perfil = 'perfil'
+            #st.session_state.perfil = 'perfil'
             #if colPerfilEmail.button("Info. Pessoais", key='InfoPessoais'):
             #    perfil()
             st.rerun()
