@@ -1,81 +1,42 @@
 import streamlit as st
 import pandas as pd
-from streamlit_dynamic_filters import DynamicFilters
-#import paciente 
+st.markdown('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">', unsafe_allow_html=True)
 
-def base_connect():
-    cols = ['ID','Nome', 'Gênero', 'Status','tags']
-    df_pacientes = pd.read_csv("C:\\Users\david\OneDrive\Projetos\MyHabits\data\pacientes.csv", sep=";")
-   # df_pacientes = df_pacientes.loc[df_pacientes['Nome'] == nome]
-    return df_pacientes[cols]
+st.markdown("""
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #3498DB;">
+  <a class="navbar-brand" href="https://youtube.com/dataprofessor" target="_blank">Data Professor</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link disabled" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://youtube.com/dataprofessor" target="_blank">YouTube</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://twitter.com/thedataprof" target="_blank">Twitter</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+""", unsafe_allow_html=True)
 
-#def novo_paciente():
-    # Nome, Endereço, medidas
+st.markdown('''# **Binance Price App**
+A simple cryptocurrency price app pulling price data from *Binance API*.
+''')
 
-#def busca():
+st.header('**Selected Price**')
 
-#def exportar():
+# Load market data from Binance API
+df = pd.read_json('https://api.binance.com/api/v3/ticker/24hr')
 
-#def filtros():
-
-dynamic = DynamicFilters(base_connect(), filters=base_connect().columns.tolist())
-
-dynamic.display_filters()
-
-dynamic.display_df()
-
-with st.cascade_input():
-    options_cols = st.multiselect(f'Buscar por:',
-               base_connect().columns.tolist())
-    
-    st.write(options_cols)
-
-st.title("Lista de Pacientes")
-left_col, right_col = st.columns([5,1])
-    
-query = left_col.text_input("Busca","")
-
-if right_col.button("filtro avançado"):
-    options_cols = st.multiselect(f'Buscar por:',
-               base_connect().columns.tolist())
-    
-    st.write(options_cols)
-    #if options_cols:
-    #    options = st.multiselect(str(options_cols),
-    #            base_connect()[options_cols])
-            
-def filter_dataframe(df, search_term):
-    return df[df.apply(lambda row: row.astype(str).str.contains(search_term, case=False).any(), axis=1)]
-
-if query:
-    #mask = base_connect().applymap(lambda x: query in str(x).lower()).any(axis=1)
-    #df = base_connect()[mask]
-    filtered_df = filter_dataframe(base_connect(), query)
-else:
-    filtered_df = base_connect()
-
-st.data_editor(
-    filtered_df,
-    hide_index=True,
-    num_rows="dynamic",
-    use_container_width=True,
-    disabled = True)                                
-
-
-    
-
-#filtro
-
-#filtered_df = base_connect()[base_connect()['Nome'].isin(options)]
-
-#st.table(filtered_df)
-
-
-#print(type(options))
-#st.table(base_connect().loc[base_connect()['Nome'] == options])
-
-#if __name__ == "__main__":
-        
-
-        
-    
+# Custom function for rounding values
+def round_value(input_value):
+    if input_value.values > 1:
+        a = float(round(input_value, 2))
+    else:
+        a = float(round(input_value, 8))
+    return a

@@ -1,6 +1,7 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
+
 components.html(
     """
 <!DOCTYPE html>
@@ -81,7 +82,7 @@ img {vertical-align: middle;}
 
 <div class="mySlides fade">
   <div class="numbertext">1 / 3</div>
-  <img src="https://unsplash.com/photos/GJ8ZQV7eGmU/download?force=true&w=1920" style="width:100%">
+  <img src="file://localhost/C:/Users/david/OneDrive/Projetos/MyHabits/app/images/foto_joana.jpg" style="width:50%">
   <div class="text">Caption Text</div>
 </div>
 
