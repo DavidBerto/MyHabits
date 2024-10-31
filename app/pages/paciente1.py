@@ -184,9 +184,8 @@ def perfil():
 
         apelido = colperfil1.text_input("Apelido")
         nome = colperfil1.text_input("Nome")
-        genero = colperfil1.selectbox("Gênero Biológico", ["Masculino", "Feminino"])
         sobrenome = colperfil1.text_input("Sobrenome")
-        
+        genero = colperfil1.selectbox("Gênero Biológico", ["Masculino", "Feminino"])
         data_nasc = colperfil2.date_input("Data de Nascimento", format="DD/MM/YYYY", key="data_nasc")
         telefone = colperfil2.text_input("Telefone")
         email = colperfil2.text_input("E-mail")
