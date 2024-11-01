@@ -1,29 +1,5 @@
 import streamlit as st
 
-st.markdown('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">', unsafe_allow_html=True)
-
-st.markdown("""
-<nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #3498DB;">
-  <a class="navbar-brand" href="https://youtube.com/dataprofessor" target="_blank">Data Professor</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link disabled" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="https://youtube.com/dataprofessor" target="_blank">YouTube</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="https://twitter.com/thedataprof" target="_blank">Twitter</a>
-      </li>
-    </ul>
-  </div>
-</nav>
-""", unsafe_allow_html=True)
-
 st.set_page_config(page_title="My Habits",
                    page_icon="/mount/src/myhabits/app/images/favicon-32x32.png",
                    #page_icon="C:/Users/david/OneDrive/Projetos/MyHabits/app/images/favicon-32x32.png",
@@ -37,7 +13,7 @@ theme_plotly = None
 #home
 home_page = st.Page(
     page = "pages/1_home.py",
-    title = "Dashboard",
+    title = "Início",
     icon=":material/dashboard:",
  #   icon="icons/home.jpg",
     default = True  
@@ -69,46 +45,98 @@ planos_alimentares_page = st.Page(
 
 relatorios_page = st.Page(
     page="pages/relatorio.py",
-    title="Relatórios",
+    title="Relatórios (Em Breve)",
     icon= ":material/monitoring:"
 )
 
 financeiro_page = st.Page(
     page="pages/financeiro.py",
-    title="Financeiro",
+    title="Financeiro (Em Breve)",
     icon= ":material/attach_money:"
 )
 
 social_media_page = st.Page(
     page="pages/social_media.py",
-    title="Mídias Sociais",
+    title="Mídias Sociais (Em Breve)",
     icon= ":material/thumb_up:"
 )
 
 agenda_page = st.Page(
     page="pages/agenda.py",
-    title="Agenda",
+    title="Agenda (Em Breve)",
     icon= ":material/calendar_month:"
 )
 
 conteudo_page = st.Page(
     page="pages/conteudo.py",
-    title="Artigos e Vídeos",
+    title="Artigos e Vídeos (Em Breve)",
     icon= ":material/local_library:"
+)
+
+time_page = st.Page(
+    page="pages/equipe.py",
+    title="Equipe (Em Breve)",
+    icon= ":material/groups:"
 )
 #LOGO
 #st.logo('images/favicon-32x32.png')
 
 #navegação
+hide_st_style = """
+                <style>
+                #MainMenu {visibility : hidden;}
+                footer {visibility: hidden;}
+                header {visibility: hidden;}
+                </style>
+"""
 
 pg = st.navigation(
     {
-        "Início": [home_page], #lista de pacientes
-        "Minha Gestão": [agenda_page, financeiro_page, relatorios_page,social_media_page], # Equipe; 
-        "Meus Pacientes": [descritivo_page, lista_pacientes_page, paciente_page], 
-        "Minhas Consultas": [planos_alimentares_page], #  alertas
+        "Início": [home_page], 
+        "Minha Gestão": [agenda_page, financeiro_page, relatorios_page,time_page,social_media_page], # Equipe; 
+        "Meus Pacientes": [planos_alimentares_page, descritivo_page, lista_pacientes_page, paciente_page], 
         "Meus Conteúdos": [conteudo_page] #video aulas; chat
-    }
+    }, expanded= False
 )
 #pg = st.navigation([home_page, descritivo_page])
+st.markdown(hide_st_style, unsafe_allow_html=True)
 pg.run()
+
+#menu superior
+
+st.markdown('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">', unsafe_allow_html=True)
+
+st.markdown("""
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #3498DB;">
+  <a class="navbar-brand" href="https://youtube.com/dataprofessor" target="_blank">My Habits</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link disabled" href="#"> Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://youtube.com/dataprofessor" target="_blank">Redes Sociais</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://twitter.com/thedataprof" target="_blank">Suporte</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+""", unsafe_allow_html=True)
+button_style = """
+    .stButton > button {
+        border-radius: 5%;
+        width: 100px;
+        height: 75px;
+        background-color: #d0e0eb;
+        color: gray;
+        font-size: 20px;
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+"""
+st.markdown(f"<style>{button_style}</style>", unsafe_allow_html=True)
