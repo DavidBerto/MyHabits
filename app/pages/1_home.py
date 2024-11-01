@@ -29,7 +29,7 @@ test_items = [
     dict(
         title="",
         text="                                                                    ",
-        img="C:/Users/david/OneDrive/Projetos/text_image.png"
+        img="/mount/src/myhabits/app/images/text_image.png"
         #link="https://discuss.streamlit.io/t/new-component-react-bootstrap-carousel/46819",
     ),
     dict(
