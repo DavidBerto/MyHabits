@@ -1,42 +1,24 @@
-import streamlit as st
-import pandas as pd
-st.markdown('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">', unsafe_allow_html=True)
+from PIL import Image, ImageDraw, ImageFont
 
-st.markdown("""
-<nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #3498DB;">
-  <a class="navbar-brand" href="https://youtube.com/dataprofessor" target="_blank">Data Professor</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link disabled" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="https://youtube.com/dataprofessor" target="_blank">YouTube</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="https://twitter.com/thedataprof" target="_blank">Twitter</a>
-      </li>
-    </ul>
-  </div>
-</nav>
-""", unsafe_allow_html=True)
+# Create a blank image
 
-st.markdown('''# **Binance Price App**
-A simple cryptocurrency price app pulling price data from *Binance API*.
-''')
+img = Image.new('RGB', (200, 250), color='white')
 
-st.header('**Selected Price**')
+# Create an ImageDraw object
 
-# Load market data from Binance API
-df = pd.read_json('https://api.binance.com/api/v3/ticker/24hr')
+d = ImageDraw.Draw(img)
 
-# Custom function for rounding values
-def round_value(input_value):
-    if input_value.values > 1:
-        a = float(round(input_value, 2))
-    else:
-        a = float(round(input_value, 8))
-    return a
+# Load a font
+
+fnt = ImageFont.truetype('arial.ttf', 10)
+
+# Write text on the image
+
+d.text((10, 10), "          Agendamentos  \n"
+                  "11:00 - 12:00 - Joana Silva\n"
+                  "13:00 - 14:00 - Pedro Cabral\n"
+                  "15:00 - 16:00 - João Batista", font=fnt, fill=(0, 0, 0))
+
+# Save the image
+
+img.save('text_image.png')

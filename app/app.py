@@ -87,8 +87,12 @@ hide_st_style = """
                 #MainMenu {visibility : hidden;}
                 footer {visibility: hidden;}
                 header {visibility: hidden;}
-                </style>
-"""
+                [data-testid="stToolbar"] {visibility: hidden;}
+                [data-testid="appCreatorAvatar"] {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_st_style, unsafe_allow_html=True)
+
 
 pg = st.navigation(
     {

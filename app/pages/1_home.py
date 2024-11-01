@@ -27,9 +27,9 @@ atalhos()
 st.subheader("Notícias da Semana")
 test_items = [
     dict(
-        title="Aniversários",
-        text="Joana / Pedrinho                                                                    ",
-        img="https://img.freepik.com/free-photo/wide-angle-shot-single-tree-growing-clouded-sky-during-sunset-surrounded-by-grass_181624-22807.jpg?w=1380&t=st=1688825493~exp=1688826093~hmac=cb486d2646b48acbd5a49a32b02bda8330ad7f8a0d53880ce2da471a45ad08a4"
+        title="",
+        text="                                                                    ",
+        img="C:/Users/david/OneDrive/Projetos/text_image.png"
         #link="https://discuss.streamlit.io/t/new-component-react-bootstrap-carousel/46819",
     ),
     dict(

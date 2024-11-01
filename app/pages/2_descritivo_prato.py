@@ -76,10 +76,10 @@ st.write("Importe a imagem do prato ou tire uma foto")
         # Carrega a imagem
 #if st.button("Carregar imagem"):
 col1, col2 = st.columns(2)
-uploaded_file = col1.file_uploader("Escolha uma imagem", type=["jpg", "jpeg", "png"])
+uploaded_file = st.file_uploader("Escolha uma imagem", type=["jpg", "jpeg", "png"])
 #verifica e converte para jpeg
-enable = col2.checkbox("Abrir câmera")
-picture = col2.camera_input(" ",  disabled=not enable)
+enable = st.checkbox("Abrir câmera")
+picture = st.camera_input(" ",  disabled=not enable)
 
 #def carregar_imagem():
     
