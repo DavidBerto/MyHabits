@@ -5,12 +5,16 @@ from PIL import Image
 import pandas as pd
 import numpy as np
 import base64
+import json
 
 import tempfile
 import os
 
 import requests
 from dotenv import load_dotenv
+
+#save_path = "/mount/src/myhabits/app/db/img_pratos/"
+#save_path = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/img_pratos/"
 
 load_dotenv()
 
@@ -45,7 +49,8 @@ def describe_image(image_path):
         "content": [
             {
             "type": "text",
-            "text": "Gere uma tabela nutricional com cada alimento dentro do prato"
+            "text": """Gere apenas somente uma tabela nutricional com estimativa de quantidade, macro e micro nutrientes de cada alimento dentro do prato. 
+            a saida deve apenas somente em formato markdown."""
             },
             {
             "type": "image_url",
@@ -56,21 +61,25 @@ def describe_image(image_path):
         ]
         }
     ],
-    "max_tokens": 300
+    "max_tokens": 1000
     }
 
     response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
-    table = (response.json()['choices'][0]['message']['content'])
+    table_str = (response.json()['choices'][0]['message']['content'])
+    #table_json = json.loads(table_str)
+    st.markdown(table_str)
+    #df_table = pd.DataFrame(table)
     #table = (response.json())
-    st.markdown(table)
-    
-    if st.button("Registrar"):
-        None
-    if st.button("Cancelar"):
-        describe_image(image_path)
+    #return st.table(table)
+
+    #if st.button("Registrar"):
+    #    None
+    #if st.button("Cancelar"):
+    #    describe_image(image_path)
     #return response.json()['choices'][0]['message']['content'].
 
-
+#def save_table(image_path):
+    
 st.title("Descritivo do Prato")
 st.write("Importe a imagem do prato ou tire uma foto")
         # Carrega a imagem
@@ -80,6 +89,7 @@ uploaded_file = st.file_uploader("Escolha uma imagem", type=["jpg", "jpeg", "png
 #verifica e converte para jpeg
 enable = st.checkbox("Abrir câmera")
 picture = st.camera_input(" ",  disabled=not enable)
+#picture.switch_camera()
 
 #def carregar_imagem():
     
@@ -99,8 +109,11 @@ if uploaded_file:
         descriptions = describe_image(path)
         # Cria um DataFrame com as descrições
         #df = pd.DataFrame({'Alimentos': descriptions})
-            # Botão para gerar a descrição      
-
+            # Botão para gerar a descrição   
+    if st.download_button('Registrar Imagem', uploaded_file, file_name=uploaded_file.name, key='registrar_uploaded_file'):
+        #image.save(save_path+uploaded_file.name,"JPEG")
+        st.toast("Imagem Salva!")
+        
 if picture:
     temp_dir = tempfile.mkdtemp()
     path = os.path.join(temp_dir,picture.name)
@@ -116,4 +129,8 @@ if picture:
         descriptions = describe_image(path)
         # Cria um DataFrame com as descrições
         #df = pd.DataFrame({'Alimentos': descriptions})
-            # Botão para gerar a descrição      
+            # Botão para gerar a descrição  
+    if st.download_button('Registrar Imagem', uploaded_file, file_name=uploaded_file.name, key='registrar_picture'):
+        #image.save(save_path+uploaded_file.name,"JPEG")
+        st.toast("Imagem Salva!")
+#def carregar_imagem():    
