@@ -130,7 +130,7 @@ if picture:
         # Cria um DataFrame com as descrições
         #df = pd.DataFrame({'Alimentos': descriptions})
             # Botão para gerar a descrição  
-    if st.download_button('Registrar Imagem', uploaded_file, file_name=uploaded_file.name, key='registrar_picture'):
+    if st.download_button('Registrar Imagem', picture, file_name=picture.name, key='registrar_picture'):
         #image.save(save_path+uploaded_file.name,"JPEG")
         st.toast("Imagem Salva!")
 #def carregar_imagem():    
