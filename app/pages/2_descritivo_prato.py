@@ -50,7 +50,7 @@ def describe_image(image_path):
             {
             "type": "text",
             "text": """Gere apenas somente uma tabela nutricional com estimativa de quantidade, macro e micro nutrientes de cada alimento dentro do prato. 
-            a saida deve apenas somente em formato markdown."""
+            """
             },
             {
             "type": "image_url",

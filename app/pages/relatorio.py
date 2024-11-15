@@ -1,6 +1,6 @@
 import streamlit as st
 from streamlit_carousel import carousel
-st.title("Relatórios")
+st.title("Relatórios (Em Breve)")
 
 test_items = [
     dict(
