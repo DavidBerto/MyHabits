@@ -13,7 +13,7 @@ import os
 import requests
 from dotenv import load_dotenv
 
-#save_path = "/mount/src/myhabits/app/db/img_pratos/"
+save_path = "/mount/src/myhabits/app/db/img_pratos/"
 #save_path = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/img_pratos/"
 
 load_dotenv()
