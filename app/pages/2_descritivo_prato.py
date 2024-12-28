@@ -49,8 +49,11 @@ def describe_image(image_path):
         "content": [
             {
             "type": "text",
-            "text": """Gere apenas somente uma tabela nutricional com estimativa de quantidade, macro e micro nutrientes de cada alimento dentro do prato. 
-            """
+            "text": 
+                """
+                Gere apenas somente uma tabela nutricional com estimativa de quantidade, macro e micro nutrientes de cada alimento dentro do prato.
+                utilize o contexto da imagem para estimar quais os demais alimentos que compoem o prato. 
+                """
             },
             {
             "type": "image_url",

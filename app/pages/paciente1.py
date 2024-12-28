@@ -12,13 +12,13 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 
-Path_foto_paciente = "/mount/src/myhabits/app/images/"
-pathDBPerfil = "/mount/src/myhabits/app/db/pacientes.csv"
-pathDBMedidas = "/mount/src/myhabits/app/db/medidas.csv"
+#Path_foto_paciente = "/mount/src/myhabits/app/images/"
+#pathDBPerfil = "/mount/src/myhabits/app/db/pacientes.csv"
+#pathDBMedidas = "/mount/src/myhabits/app/db/medidas.csv"
 
-#Path_foto_paciente = "C:/Users/david/OneDrive/Projetos/MyHabits/app/images/"
-#pathDBPerfil = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/pacientes.csv"
-#pathDBMedidas = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/medidas.csv"
+Path_foto_paciente = "C:/Users/david/OneDrive/Projetos/MyHabits/app/images/"
+pathDBPerfil = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/pacientes.csv"
+pathDBMedidas = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/medidas.csv"
 
 pacienteID1 = 2
 # Configuração da página
@@ -72,8 +72,14 @@ def update_dataframe(df, index, new_data):
         df.loc[index] = new_data
     return df
 
-#atualização de medidas
-def page_medidas():
+## carrega base de medidas
+def load_medidas(ID, path_df):
+    df = pd.read_csv(path_df)
+    df = df.loc[df['ID'] == ID]
+    return df
+
+## atualização de medidas
+def page_add_medidas(ID, df):
     st.write("Atualize suas medidas")
     cols = ['Data', 'Peso', 'Altura', 'Abdominal','Tríceps','Subescapular','Bíceps','Axilar média',
             'Torácica ou peitoral','Supra-ilíaca','Supra-espinal','Coxa','Panturrilha medial']
@@ -98,23 +104,7 @@ def page_medidas():
         st.write("Medidas Salvas")
         st.toast("Medidas Salvas")
 #def suporte():       
-
-
-# Função para filtrar o DataFrame com base no termo de busca e nos filtros selecionados
-def filter_dataframe(df, search_term, filters):
-    filtered_df = df.copy()
-    
-    # Aplicar filtros de coluna
-    for column, values in filters.items():
-        if values:
-            filtered_df = filtered_df[filtered_df[column].isin(values)]
-    
-    # Aplicar termo de busca
-    if search_term:
-        filtered_df = filtered_df[filtered_df.apply(lambda row: row.astype(str).str.contains(search_term, case=False).any(), axis=1)]
-    
-    return filtered_df
-
+## dataframe do perfil paciente
 def db_perfil(ID, pathDB):
     df = pd.read_csv(pathDB, sep = ";")
     filtered = df.loc[df["ID"] == ID]
@@ -127,13 +117,14 @@ def calc_idade(birthdate):
         age = today.year - year - ((today.month, today.day) < (month, day))
     else: age = 0
     return age
+
 #data fram do paciente
 dbPerfilPac = db_perfil(pacienteID1, pathDBPerfil)
 dbMedidasPac = db_perfil(pacienteID1, pathDBMedidas) #pathDBMedidas = pathDBMedidas
 
 col1, col2, col3 = st.columns([0.2,0.2, 0.4])
 
-#foto
+## foto paciente
 
 idref = pacienteID1-1
 image = Image.open(Path_foto_paciente+str(dbPerfilPac["FOTO_URL"][idref])+".jpg")
@@ -258,7 +249,7 @@ with st.expander("Medidas Antropométricas"):
     if col4.button("Detalhes das Medidas"):
         st.write("Medidas adicionados com sucesso!")
     if col5.button('Adicionar Medidas'):
-        page_medidas()
+        page_add_medidas(idref, dbMedidasPac)
         
 with st.expander("Planos alimentares"):
     st.write("Planos alimentares")
