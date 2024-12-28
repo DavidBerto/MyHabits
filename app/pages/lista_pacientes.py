@@ -6,16 +6,16 @@ from PIL import Image, ImageDraw
 import base64
 import os
 
-pathPhotoURL = "/mount/src/myhabits/app/images/"
-pathDB = "/mount/src/myhabits/app/db/pacientes.csv"
 
-#pathPhotoURL = "C:/Users/david/OneDrive/Projetos/MyHabits/app/images/"
-#pathDB = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/pacientes.csv"
+#path_container = "/mount/src/myhabits"
+path_container = "C:/Users/david/OneDrive/Projetos/MyHabits"
+
+pathPhotoURL = path_container + "/app/images/"
+pathDB = path_container + "/app/db/pacientes_info.csv"
 
 def base_connect():
     
     cols = ['ID','photo','APELIDO','NOME', 'GENDER', 'STATUS','TAGS','FOTO_URL']
-    #df_pacientes = pd.read_csv("/mount/src/myhabits/app/db/pacientes.csv", sep=";")
     df_pacientes = pd.read_csv(pathDB, sep=";")
     listaFoto64 = []
     for i in df_pacientes["FOTO_URL"]:
@@ -53,7 +53,7 @@ def filtro_tabela(df):
     return col
 
 if right_col.button('Novo paciente'):
-    st.switch_page("pages/paciente1.py")
+    st.switch_page("pages/paciente.py")
     
 #if right_col.button("filtro avançado"):
 #    filtro_tabela(base_connect())

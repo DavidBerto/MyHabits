@@ -8,6 +8,11 @@ st.set_page_config(page_title="My Habits",
 
 #all graphs we use custom css not streamlit 
 theme_plotly = None 
+ #conexões# Initialize connection.
+#conn = st.connection("neon", type="sql")
+
+# Perform query.
+#df = conn.query('SELECT * FROM home;', ttl="10m")
 
 #paginas
 #home
@@ -32,7 +37,7 @@ lista_pacientes_page = st.Page(
 )
 
 paciente_page = st.Page(
-    page="pages/paciente1.py",
+    page="pages/paciente.py",
     title="Paciente",
     icon= ":material/person:"
 )
@@ -80,6 +85,8 @@ time_page = st.Page(
 )
 #LOGO
 #st.logo('images/favicon-32x32.png')
+
+
 
 #navegação
 hide_st_style = """

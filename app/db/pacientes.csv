@@ -1,7 +1,0 @@
-﻿ID;CPF;NOME;SOBRENOME;APELIDO;END;CIDADE;UF;GENDER;EMAIL;FONE_1;FONE_2;FOTO_URL;STATUS;TAGS;OCCUPATION;DATA_NASC;DATA_REGISTRO
-1;123;David;Berto;Lindão;456789;SJC;SP;Masculino;meu_email;(11)968174624;;foto_david;Ativo;Nutri;Professor Universitário;05/05/1990;
-2;124;Maria;Silva;paciente da Joana;456790;SJC;SP;Feminino;meu_email;(11)968174625;;foto_joana;Ativo;Nutri;estudante;06/05/1995;
-3;125;josé;Marinho;The Rock;456791;SJC;SP;Masculino;meu_email;(11)968174626;;the_rock;Ativo;Nutri;Lutador;07/05/1985;
-4;126;Novo Paciente;;;;;;;;;;novo_paciente;Ativo;;;;
-;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;

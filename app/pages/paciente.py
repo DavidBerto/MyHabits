@@ -12,15 +12,29 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 
-Path_foto_paciente = "/mount/src/myhabits/app/images/"
-pathDBPerfil = "/mount/src/myhabits/app/db/pacientes.csv"
-pathDBMedidas = "/mount/src/myhabits/app/db/medidas.csv"
+## COnexão com o banco de dados
+#path_container = "/mount/src/myhabits"
+path_container = "C:/Users/david/OneDrive/Projetos/MyHabits"
 
-#Path_foto_paciente = "C:/Users/david/OneDrive/Projetos/MyHabits/app/images/"
-#pathDBPerfil = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/pacientes.csv"
-#pathDBMedidas = "C:/Users/david/OneDrive/Projetos/MyHabits/app/db/medidas.csv"
+Path_foto_paciente = path_container + "/app/images/"
+pathDBInfo = path_container + "/app/db/pacientes_info.csv"
+pathDBPerfil = path_container + "/app/db/paciente_perfil.csv"
+pathDBMedidas = path_container + "/app/db/medidas.csv"
+pathDBAnamnese = path_container + "/app/db/anamnese.csv"
+pathDBPlanos_alimentares = path_container + "/app/db/planos_alimentares.csv"
+pathDBRelatorio = path_container + "/app/db/relatorios.csv"
+pathDBApp_func = path_container + "/app/db/app_func.csv"
 
-pacienteID1 = 2
+pacienteID = 2
+
+# ultimo registro da base
+def last_register(df, date_column = "ATUALIZACAO"):
+    df[date_column] = pd.to_datetime(df[date_column])
+    lasted_date = df[date_column].max()
+    # Obtém o registro mais recente
+    latest_record = df.loc[df[date_column] == lasted_date]
+    return latest_record
+
 # Configuração da página
 #
 #configuração de foto
@@ -81,31 +95,56 @@ def load_medidas(ID, path_df):
 ## atualização de medidas
 def page_add_medidas(ID, df):
     st.write("Atualize suas medidas")
-    cols = ['Data', 'Peso', 'Altura', 'Abdominal','Tríceps','Subescapular','Bíceps','Axilar média',
-            'Torácica ou peitoral','Supra-ilíaca','Supra-espinal','Coxa','Panturrilha medial']
+    
+    df_medidas = last_register(df)
+ 
     col10, col11, col12 = st.columns(3)
-    df_medidas = pd.DataFrame(columns=cols)
-    #st.write("Data")
-    df_medidas['Data'] = col10.date_input('Data', format="DD/MM/YYYY", key = "MedidasData")
-    df_medidas['Peso'] = col10.number_input('Peso (kg)')
-    df_medidas['Altura'] = col10.number_input('Altura (m)')
-    df_medidas['Abdominal'] = col10.number_input("Circunferência Abdominal (cm)")
-    df_medidas['Tríceps'] = col10.number_input("Tríceps (cm)")
-    df_medidas['Subescapular'] = col11.number_input("Subescapular (cm)")
-    df_medidas['Bíceps'] = col11.number_input("Bíceps (cm)")
-    df_medidas['Axilar média'] = col11.number_input("Axilar média (cm)")
-    df_medidas['Torácica ou peitoral'] = col11.number_input("Torácica ou peitoral (cm)")
-    df_medidas['Supra-ilíaca'] = col12.number_input("Supra-ilíaca (cm)")
-    df_medidas['Panturrilha medial'] = col12.number_input("Panturrilha medial (cm)")
-    df_medidas['Supra-espinal'] = col12.number_input("Supra-espinal (cm)")
-    df_medidas['Coxa'] = col12.number_input("Coxa (cm)")
+
+    DATA = col10.date_input('Data', format="DD/MM/YYYY", key = "MedidasData", value=date.today())
+    PESO = col10.number_input('Peso (kg)', value=float(df_medidas['PESO'].values[0].replace(',','.')), format = "%0.2f")
+    ALTURA = col10.number_input('Altura (m)', value=float(df_medidas['ALTURA'].values[0].replace(',','.')), format = "%0.2f")
+    
+    CIRC_TRICEPS = col10.number_input("Circunferência Tríceps (cm)", value=float(df_medidas['CIRC_TRICEPS'].values[0].replace(',','.')), format = "%0.2f")
+    CIRC_BRACO = col10.number_input("Circunferência Braço Relaxado (cm)", value=float(df_medidas['CIRC_BRACO'].values[0].replace(',','.')), format = "%0.2f")
+    CIRC_TORACICA = col10.number_input("Circunferência Torácica ou peitoral (cm)", value=float(df_medidas['CIRC_TORACICA'].values[0].replace(',','.')), format = "%0.2f")
+    CIRC_ABDOMINAL = col11.number_input("Circunferência Abdominal (cm)", value=float(df_medidas['CIRC_ABDOMINAL'].values[0].replace(',','.')), format = "%0.2f")
+    CIRC_COXA = col11.number_input("Circunferência Coxa (cm)", value=float(df_medidas['CIRC_COXA'].values[0].replace(',','.')), format = "%0.2f")
+    CIRC_PANTURRILHA_MEDIAL = col11.number_input("Circunferência Panturrilha medial (cm)", value=float(df_medidas['CIRC_PANTURRILHA_MEDIAL'].values[0].replace(',','.')), format = "%0.2f")
+    
+    DOBRA_TRICEPS = col11.number_input("Dobra Tricipital (mm)", value=float(df_medidas['DOBRA_TRICEPS'].values[0].replace(',','.')), format = "%0.2f")
+    DOBRA_ABDOMINAL = col11.number_input("Dobra Abdominal (mm)", value=float(df_medidas['DOBRA_ABDOMINAL'].values[0].replace(',','.')), format = "%0.2f")
+    DOBRA_SUBESCAPULAR = col12.number_input("Dobra Subescapular (mm)", value=float(df_medidas['DOBRA_SUBESCAPULAR'].values[0].replace(',','.')), format = "%0.2f")
+    DOBRA_AXILIAR_MEDIA = col12.number_input("Dobra Axilar média (mm)", value=float(df_medidas['DOBRA_AXILIAR_MEDIA'].values[0].replace(',','.')), format = "%0.2f")
+    DOBRA_TORACICA = col12.number_input("Dobra Torácica ou peitoral (mm)", value=float(df_medidas['DOBRA_TORACICA'].values[0].replace(',','.')), format = "%0.2f")
+    DOBRA_COXA = col12.number_input("Dobra Coxa (mm)", value=float(df_medidas['DOBRA_COXA'].values[0].replace(',','.')), format = "%0.2f")
+    DOBRA_SUPRA_ILIACA = col12.number_input("Dobra Suprailíaca (mm)", value=float(df_medidas['DOBRA_SUPRA_ILIACA'].values[0].replace(',','.')), format = "%0.2f")
 
     if st.button("Salvar", key = "MedidasSalvar"):
+        df_medidas['ID'] = ID+1 
+        df_medidas['ATUALIZACAO'] = date.today().strftime("%d/%m/%Y")
+        df_medidas['PESO'] = PESO
+        df_medidas['ALTURA'] = ALTURA
+        
+        df_medidas['CIRC_TRICEPS'] = CIRC_TRICEPS
+        df_medidas['CIRC_BRACO'] = CIRC_BRACO
+        df_medidas['CIRC_TORACICA'] = CIRC_TORACICA
+        df_medidas['CIRC_ABDOMINAL'] = CIRC_ABDOMINAL
+        df_medidas['CIRC_COXA'] = CIRC_COXA
+        df_medidas['CIRC_PANTURRILHA_MEDIAL'] = CIRC_PANTURRILHA_MEDIAL
+        
+        df_medidas['DOBRA_TRICEPS'] = DOBRA_TRICEPS
+        df_medidas['DOBRA_ABDOMINAL'] = DOBRA_ABDOMINAL
+        df_medidas['DOBRA_SUBESCAPULAR'] = DOBRA_SUBESCAPULAR
+        df_medidas['DOBRA_AXILIAR_MEDIA'] = DOBRA_AXILIAR_MEDIA
+        df_medidas['DOBRA_TORACICA'] = DOBRA_TORACICA
+        df_medidas['DOBRA_COXA'] = DOBRA_COXA
+        df_medidas['DOBRA_SUPRA_ILIACA'] = DOBRA_SUPRA_ILIACA
+    
         st.write("Medidas Salvas")
         st.toast("Medidas Salvas")
 #def suporte():       
 ## dataframe do perfil paciente
-def db_perfil(ID, pathDB):
+def db_paciente(ID, pathDB):
     df = pd.read_csv(pathDB, sep = ";")
     filtered = df.loc[df["ID"] == ID]
     return filtered
@@ -119,14 +158,14 @@ def calc_idade(birthdate):
     return age
 
 #data fram do paciente
-dbPerfilPac = db_perfil(pacienteID1, pathDBPerfil)
-dbMedidasPac = db_perfil(pacienteID1, pathDBMedidas) #pathDBMedidas = pathDBMedidas
-
+dbPerfilPac = db_paciente(pacienteID, pathDBInfo)
+dbMedidasPac = db_paciente(pacienteID, pathDBMedidas) 
+dbMetasPac = db_paciente(pacienteID, pathDBPerfil) 
 col1, col2, col3 = st.columns([0.2,0.2, 0.4])
 
 ## foto paciente
 
-idref = pacienteID1-1
+idref = pacienteID-1
 image = Image.open(Path_foto_paciente+str(dbPerfilPac["FOTO_URL"][idref])+".jpg")
 col1.image(foto_circular(image),width = 200)
 col1.write(dbPerfilPac["APELIDO"][idref])
@@ -241,15 +280,17 @@ obj_prediction(st)
 
 #funções detalhadas
 with st.expander("Detalhes do Perfil"):
-    st.write("Detalhes do perfil")
+    dbMetasPacLAST = last_register(dbMetasPac)
+    st.write("Detalhes do perfil: " + dbMetasPac["PERFIL"].values[0])
     st.write("Metas")
+    st.write(dbMetasPac["META"])
     
 with st.expander("Medidas Antropométricas"):
-    _, col4, col5 = st.columns([3,0.5,0.5])
-    if col4.button("Detalhes das Medidas"):
-        st.write("Medidas adicionados com sucesso!")
-    if col5.button('Adicionar Medidas'):
-        page_add_medidas(idref, dbMedidasPac)
+    #_, _, col5 = st.columns([3,0.5,0.5])
+#    if col4.button("Detalhes das Medidas"):
+#        st.write("Medidas adicionados com sucesso!")
+    #if col5.button('Adicionar Medidas'):
+    page_add_medidas(idref, dbMedidasPac)
         
 with st.expander("Planos alimentares"):
     st.write("Planos alimentares")
@@ -258,21 +299,23 @@ with st.expander("Planos alimentares"):
         st.toast("Plano adicionado com sucesso!")
 
 with st.expander("Anamnese"):
+    
+    db_anamnese = db_paciente(idref+1, pathDBAnamnese)
+    db_anamneseLAST = last_register(db_anamnese)
     colInicio, colData = st.columns([3,1])
-    colInicio.text_input("Caso Clínico")
-    colData.date_input("Data", format="DD/MM/YYYY", key="DataAnamnese")
-    patologias = ["Ansiedade", "Cancer", "Gasrite", "DIabetes", "Gota"]
+    caso = colInicio.text_input("Caso Clínico", value=db_anamneseLAST['CASO_CLINICO'].values[0])
+    data_anaminese = colData.date_input("Data", format="DD/MM/YYYY", key="DataAnamnese", value=date.today())
+    patologias = ["Ansiedade", "Câncer", "Gastrite", "Diabetes", "Gota"]
     dfPatologia = st.multiselect("Patologias",patologias)
-    dfOutrasPatologia = st.text_area("Outras Patologias") 
-    dfEstiloVida = st.text_area("Hábitos/Estilo de Vida") 
-    dfMedicamentos = st.text_area("Medicamentos")
-    dfSintomass = st.text_area("Sintomas")      
-    dfHisto = st.text_area("Histórico Familiar")
+    dfOutrasPatologia = st.text_area("Outras Patologias", value=db_anamneseLAST['OUTRAS_PATOLOGIAS'].values[0]) 
+    dfEstiloVida = st.text_area("Hábitos/Estilo de Vida", value=db_anamneseLAST['HABITOS'].values[0]) 
+    dfMedicamentos = st.text_area("Medicamentos", value=db_anamneseLAST['MEDICAMENTOS'].values[0])
+    dfSintomass = st.text_area("Sintomas", value=db_anamneseLAST['SINTOMAS'].values[0])      
+    dfHisto = st.text_area("Histórico Familiar", value=db_anamneseLAST['HISTORICO_FAMILIAR'].values[0])
     dfExame = st.file_uploader("Carregar exame", type=["jpg", "jpeg", "pdf"])
     if dfExame:
         temp_dir = tempfile.mkdtemp()
         path = os.path.join(temp_dir, dfExame.name)
-
         with open(path, "wb") as f:
             f.write(dfExame)
     _, colexame = st.columns([5,0.5])
@@ -280,11 +323,16 @@ with st.expander("Anamnese"):
         st.toast("Exames Salvos!")
         
     if st.button('Salvar', key="SalvarAnamnese"):
+        
+        
         st.write("Registros Salvos!")
         st.toast("Registros Salvos!")
 
 with st.expander("Funcionalidades App"):
-    checkAssistente = st.checkbox("Assistente Virtual")
+    db_paciente_app = db_paciente(idref+1, pathDBApp_func)
+    st.write(db_paciente_app)
+    st.write(db_paciente_app['ASSIST_VIRTUAL'].values[0])
+    checkAssistente = st.checkbox("Assistente Virtual", value=bool(db_paciente_app['ASSIST_VIRTUAL'].values[0]))
     checkAlertaAgua = st.checkbox("Alerta de Água")
     checkAlertaDiario = st.checkbox("Alerta Atualização Refeição")
     checkAlerta = st.checkbox("Modo Espião (Redes Sociais)")

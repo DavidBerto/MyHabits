@@ -14,7 +14,7 @@ def atalhos():
         st.switch_page("pages/lista_pacientes.py")
         
     if col4.button("Novo Paciente"):
-        st.switch_page("pages/paciente1.py")
+        st.switch_page("pages/paciente.py")
         
     if col5.button("Agenda"):
         st.switch_page("pages/agenda.py")
