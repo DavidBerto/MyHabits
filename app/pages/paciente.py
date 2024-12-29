@@ -13,8 +13,8 @@ import plotly.graph_objects as go
 
 
 ## COnexão com o banco de dados
-#path_container = "/mount/src/myhabits"
-path_container = "C:/Users/david/OneDrive/Projetos/MyHabits"
+path_container = "/mount/src/myhabits"
+#path_container = "C:/Users/david/OneDrive/Projetos/MyHabits"
 
 Path_foto_paciente = path_container + "/app/images/"
 pathDBInfo = path_container + "/app/db/pacientes_info.csv"

@@ -7,8 +7,8 @@ import base64
 import os
 
 
-#path_container = "/mount/src/myhabits"
-path_container = "C:/Users/david/OneDrive/Projetos/MyHabits"
+path_container = "/mount/src/myhabits"
+#path_container = "C:/Users/david/OneDrive/Projetos/MyHabits"
 
 pathPhotoURL = path_container + "/app/images/"
 pathDB = path_container + "/app/db/pacientes_info.csv"
