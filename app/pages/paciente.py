@@ -322,16 +322,14 @@ with st.expander("Anamnese"):
     if colexame.button('Salvar Exames', key="SalvarExames"):
         st.toast("Exames Salvos!")
         
-    if st.button('Salvar', key="SalvarAnamnese"):
-        
-        
+    if st.button('Salvar', key="SalvarAnamnese"):        
         st.write("Registros Salvos!")
         st.toast("Registros Salvos!")
 
 with st.expander("Funcionalidades App"):
     db_paciente_app = db_paciente(idref+1, pathDBApp_func)
-    st.write(db_paciente_app)
-    st.write(db_paciente_app['ASSIST_VIRTUAL'].values[0])
+#    st.write(db_paciente_app)
+#    st.write(db_paciente_app['ASSIST_VIRTUAL'].values[0])
     checkAssistente = st.checkbox("Assistente Virtual", value=bool(db_paciente_app['ASSIST_VIRTUAL'].values[0]))
     checkAlertaAgua = st.checkbox("Alerta de Água")
     checkAlertaDiario = st.checkbox("Alerta Atualização Refeição")
